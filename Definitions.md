@@ -1,4 +1,4 @@
-Boolean Logic:
+# Boolean Logic
 True		\x \y -> x
 False		\x \y -> y
 and		\x \y -> x y x
@@ -9,7 +9,7 @@ IsZero		\n-> n (\x->False) True
 <		\x \y -> not (isZero y x)
 IfElse		\p \a \b -> p a b
 
-Natural Numbers:
+# Natural Numbers
 0 = 		\f \x -> x
 1 = 		\f \x -> f x
 n = 		\f \x -> f^n x
@@ -22,7 +22,7 @@ Sub		\m \n -> n Pred m
 Integers:
 		TODO Implement as Pairs
 
-Commands:
+# Commands
 While 		TODO
 Skip 		???
 x := e		???
