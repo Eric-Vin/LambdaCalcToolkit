@@ -4,26 +4,49 @@ False		\x \y -> y
 and		\x \y -> x y x
 or		\x \y -> x x y
 not		\a \x \y -> a y x
-IsZero		\n-> n (\x->False) True
-=		\x \y -> isZero (add (sub x y) (sub y x))
-<		\x \y -> not (isZero y x)
+IsZero		\n-> n (\x -> False) True
+EQ		\x \y -> isZero (Add (Sub x y) (Sub y x))
+Leq		\x \y -> IsZero (Sub x y)		
+Less		\x \y -> and (Leq x y) (not (EQ x y))
+EQ_int		\x \y -> and (EQ (First Reduce x) (First Reduce y)) (EQ (Second Reduce x) (Second Reduce y))
+Leq_int		\x \y -> and (IsZero (First (Sub_int x y))) (IsZero (Second (Sub_int x y)))		
+Less_int	\x \y -> and (Leq_int x	y) (not (EQ_int x y))	
 IfElse		\p \a \b -> p a b
 
 Natural Numbers:
-0 = 		\f \x -> x
-1 = 		\f \x -> f x
-n = 		\f \x -> f^n x
+0  		\f \x -> x
+1  		\f \x -> f x
+n  		\f \x -> f^n x
 Succ		\n \f \x -> f (n f x)
 Add		\m \n -> m Succ n
 Mult		\m \n \f -> m (Add n) 0
 Pred		\n \f \x -> n (\g \h -> h (g f)) (\u->x) (\u->u)
 Sub		\m \n -> n Pred m
 
+Pairs:
+Pair		\x \y \f -> f x y
+First		\p -> p True
+Second		\p -> p False
+Nil 		\x -> True
+isNil		\p -> p (\x \y -> False)
+
+Combinators:
+Y		\f -> (\x -> f (x x)) (\x -> f (x x))
+
 Integers:
-		TODO Implement as Pairs
+0		Pair 0 0
+N		Pair n 0
+-N		Pair 0 n
+Neg		\x -> Pair (Second x) (First x)
+Reduce		Y (\c \x -> isZero (First x) x isZero (Second x) x (c Pair(Pred (First x) Pred (Second x))) 
+Add_int		\x \y -> Reduce (Pair ( Add (First x) (First y)) (Add (Second x) (Second y)))
+Mult_int	\x \y -> (Pair (Add (Mult (First x) (First y)) (Mult (Second x) (Second y))) (Add (Mult (First x) (Second y)) (Mult (Second x) (First y))))
+Sub_int 	\x \y -> Reduce (Pair ( Add (First x) (Second y)) (Add (Second x) (First y)))
+
 
 Commands:
-While 		TODO
+While		Y (\r \S -> IfElse (condition S) (r (func S)) (S))
+While 		Need to figure out variables
 Skip 		???
 x := e		???
 c1 ; c2		???
