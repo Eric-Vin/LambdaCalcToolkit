@@ -75,5 +75,47 @@
     "Output" : "10",
     "Params" : ["10"],
     "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Not_True",
+    "Input"  : "test/input/interpreter/not.lambda",
+    "Output" : "True",
+    "Params" : ["False"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Not_False",
+    "Input"  : "test/input/interpreter/not.lambda",
+    "Output" : "False",
+    "Params" : ["True"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Or_1",
+    "Input"  : "test/input/interpreter/or.lambda",
+    "Output" : "True",
+    "Params" : ["True", "False"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Or_2",
+    "Input"  : "test/input/interpreter/or.lambda",
+    "Output" : "False",
+    "Params" : ["False", "False"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "And_1",
+    "Input"  : "test/input/interpreter/and.lambda",
+    "Output" : "True",
+    "Params" : ["True", "True"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "And_2",
+    "Input"  : "test/input/interpreter/And.lambda",
+    "Output" : "False",
+    "Params" : ["True", "False"],
+    "Type"   : "Interpreter"
     }
 ]
