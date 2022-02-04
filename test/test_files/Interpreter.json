@@ -43,35 +43,35 @@
     },
     {
     "Name"   : "Input_True",
-    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Input"  : "test/input/interpreter/identity.lambda",
     "Output" : "True",
     "Params" : ["True"],
     "Type"   : "Interpreter"
     },
     {
     "Name"   : "Input_False",
-    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Input"  : "test/input/interpreter/identity.lambda",
     "Output" : "False",
     "Params" : ["False"],
     "Type"   : "Interpreter"
     },
     {
     "Name"   : "Input_Nums_1",
-    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Input"  : "test/input/interpreter/identity.lambda",
     "Output" : "0",
     "Params" : ["0"],
     "Type"   : "Interpreter"
     },
     {
     "Name"   : "Input_Nums_2",
-    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Input"  : "test/input/interpreter/identity.lambda",
     "Output" : "1",
     "Params" : ["1"],
     "Type"   : "Interpreter"
     },
     {
     "Name"   : "Input_Nums_3",
-    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Input"  : "test/input/interpreter/identity.lambda",
     "Output" : "10",
     "Params" : ["10"],
     "Type"   : "Interpreter"
