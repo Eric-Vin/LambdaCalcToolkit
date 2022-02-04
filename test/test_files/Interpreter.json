@@ -1,44 +1,79 @@
 [
     {
-    "Name"   : "Encodings_1",
-    "Input"  : "test/input/interpreter/encodings_1.lambda",
+    "Name"   : "Encodings_True",
+    "Input"  : "test/input/interpreter/encodings_true.lambda",
     "Output" : "True",
     "Params" : [],
     "Type"   : "Interpreter"
     },
     {
-    "Name"   : "Encodings_2",
-    "Input"  : "test/input/interpreter/encodings_2.lambda",
+    "Name"   : "Encodings_False",
+    "Input"  : "test/input/interpreter/encodings_false.lambda",
     "Output" : "False",
     "Params" : [],
     "Type"   : "Interpreter"
     },
     {
-    "Name"   : "Encodings_3",
-    "Input"  : "test/input/interpreter/encodings_3.lambda",
+    "Name"   : "Encodings_Nums_1",
+    "Input"  : "test/input/interpreter/encodings_nums_1.lambda",
     "Output" : "0",
     "Params" : [],
     "Type"   : "Interpreter"
     },
     {
-    "Name"   : "Encodings_4",
-    "Input"  : "test/input/interpreter/encodings_4.lambda",
+    "Name"   : "Encodings_Nums_2",
+    "Input"  : "test/input/interpreter/encodings_nums_2.lambda",
     "Output" : "1",
     "Params" : [],
     "Type"   : "Interpreter"
     },
     {
-    "Name"   : "Encodings_5",
-    "Input"  : "test/input/interpreter/encodings_5.lambda",
+    "Name"   : "Encodings_Nums_3",
+    "Input"  : "test/input/interpreter/encodings_nums_3.lambda",
     "Output" : "5",
     "Params" : [],
     "Type"   : "Interpreter"
     },
     {
-    "Name"   : "Encodings_6",
-    "Input"  : "test/input/interpreter/encodings_5.lambda",
+    "Name"   : "Encodings_Function",
+    "Input"  : "test/input/interpreter/encodings_function.lambda",
     "Output" : "(\\x -> x)",
     "Params" : [],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Input_True",
+    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Output" : "True",
+    "Params" : ["True"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Input_False",
+    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Output" : "False",
+    "Params" : ["False"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Input_Nums_1",
+    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Output" : "0",
+    "Params" : ["0"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Input_Nums_2",
+    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Output" : "1",
+    "Params" : ["1"],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Input_Nums_3",
+    "Input"  : "test/input/interpreter/input_identity.lambda",
+    "Output" : "10",
+    "Params" : ["10"],
     "Type"   : "Interpreter"
     }
 ]
