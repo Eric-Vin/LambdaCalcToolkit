@@ -1,0 +1,1 @@
+(\input1 -> (\n \f \x -> n (\g \h -> h (g f)) (\u->x) (\u->u)) input1)
