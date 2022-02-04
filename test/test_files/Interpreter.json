@@ -117,5 +117,89 @@
     "Output" : "False",
     "Params" : ["True", "False"],
     "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Succ_1",
+        "Input"  : "test/input/interpreter/succ.lambda",
+        "Output" : "1",
+        "Params" : ["0"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Succ_2",
+        "Input"  : "test/input/interpreter/succ.lambda",
+        "Output" : "11",
+        "Params" : ["10"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Sum_1",
+        "Input"  : "test/input/interpreter/sum.lambda",
+        "Output" : "14",
+        "Params" : ["10","4"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Sum_1",
+        "Input"  : "test/input/interpreter/sum.lambda",
+        "Output" : "0",
+        "Params" : ["0","0"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Pred_1",
+        "Input"  : "test/input/interpreter/pred.lambda",
+        "Output" : "0",
+        "Params" : ["0"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Pred_2",
+        "Input"  : "test/input/interpreter/pred.lambda",
+        "Output" : "0",
+        "Params" : ["1"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Pred_3",
+        "Input"  : "test/input/interpreter/pred.lambda",
+        "Output" : "6",
+        "Params" : ["7"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Sub_1",
+        "Input"  : "test/input/interpreter/sub.lambda",
+        "Output" : "4",
+        "Params" : ["10","6"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Sub_2",
+        "Input"  : "test/input/interpreter/sub.lambda",
+        "Output" : "0",
+        "Params" : ["10","11"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Product_1",
+        "Input"  : "test/input/interpreter/product.lambda",
+        "Output" : "3",
+        "Params" : ["1","3"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Product_2",
+        "Input"  : "test/input/interpreter/product.lambda",
+        "Output" : "0",
+        "Params" : ["0","9"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Product_3",
+        "Input"  : "test/input/interpreter/product.lambda",
+        "Output" : "20",
+        "Params" : ["4","5"],
+        "Type"   : "Interpreter"
     }
 ]
