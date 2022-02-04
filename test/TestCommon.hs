@@ -65,8 +65,10 @@ generateTests test    = case (testType test) of
                                 output      = testOutput test
                                 params      = testParams test
 
-assertInterpreterOutput :: String -> String -> IO ()
-assertInterpreterOutput value expected = assertBool ("Expected \"" ++ expected ++ "\", got \"" ++ value ++ "\"") (value == expected)
+assertInterpreterOutput :: IO String -> String -> IO ()
+assertInterpreterOutput value expected = do
+                                        value' <- value
+                                        assertBool ("Expected \"" ++ expected ++ "\", got \"" ++ value' ++ "\"") (value' == expected)
 
 ---------------------------------------------------------------------------------------------------
 --Functions for parsing test/test_files/ for all test file JSONS

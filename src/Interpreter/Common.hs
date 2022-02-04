@@ -1,4 +1,4 @@
-
+module Interpreter.Common where
 
 -- Lambda Calc Datatypes
 
@@ -8,8 +8,8 @@ data LambdaExpr = Function [LambdaVar] [LambdaExpr]
                 | Var LambdaVar
 
 -- Encoding Helper Functions
-encodeInt :: Int -> Int -> LambdaExpr
-encodeInt c i   = undefined
+encodeInt :: Int -> LambdaExpr
+encodeInt i   = undefined
 
-encodeBool :: Int -> Int -> Bool -> LambdaExpr
-encodeBool c b  = undefined
+encodeBool :: Bool -> LambdaExpr
+encodeBool b  = undefined
