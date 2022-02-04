@@ -1,0 +1,9 @@
+[
+    {
+    "Name"   : "TestName",
+    "Input"  : "test/input/interpreter/test_name.la",
+    "Output" : "5",
+    "Params" : ["True", "5"],
+    "Type"   : "Interpreter"
+    }
+]

@@ -1,3 +1,4 @@
-module Compiler (compile) where
+module Compiler.Compiler (runCompiler) where
 
-compile = undefined
+runCompiler :: String -> String -> IO ()
+runCompiler in_file_path out_file_path = undefined

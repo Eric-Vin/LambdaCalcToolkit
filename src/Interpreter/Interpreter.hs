@@ -1,3 +1,4 @@
-module Interpreter (interpret) where
+module Interpreter.Interpreter (runInterpreter) where
 
-interpret = undefined
+runInterpreter :: String -> [String] -> String
+runInterpreter file_path params = undefined
