@@ -1,9 +1,44 @@
 [
     {
-    "Name"   : "TestName",
-    "Input"  : "test/input/interpreter/test_name.la",
+    "Name"   : "Encodings_1",
+    "Input"  : "test/input/interpreter/encodings_1.lambda",
+    "Output" : "True",
+    "Params" : [],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Encodings_2",
+    "Input"  : "test/input/interpreter/encodings_2.lambda",
+    "Output" : "False",
+    "Params" : [],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Encodings_3",
+    "Input"  : "test/input/interpreter/encodings_3.lambda",
+    "Output" : "0",
+    "Params" : [],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Encodings_4",
+    "Input"  : "test/input/interpreter/encodings_4.lambda",
+    "Output" : "1",
+    "Params" : [],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Encodings_5",
+    "Input"  : "test/input/interpreter/encodings_5.lambda",
     "Output" : "5",
-    "Params" : ["True", "5"],
+    "Params" : [],
+    "Type"   : "Interpreter"
+    },
+    {
+    "Name"   : "Encodings_6",
+    "Input"  : "test/input/interpreter/encodings_5.lambda",
+    "Output" : "(\\x -> x)",
+    "Params" : [],
     "Type"   : "Interpreter"
     }
 ]
