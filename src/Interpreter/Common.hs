@@ -8,11 +8,13 @@ import Data.List (intercalate)
 type LambdaVar = String
 
 data LambdaExpr = Function LambdaVar [LambdaExpr]
+                | Application [LambdaExpr] [LambdaExpr]
                 | Var LambdaVar
                 deriving (Eq)
 
 instance Show LambdaExpr where
     show (Function var lexprs) = "(\\" ++ var ++ " -> " ++ (intercalate " " $ map show lexprs) ++ ")"
+    show (Application lexprs1 lexprs2) = "(\\" ++ (intercalate " " $ map show lexprs1) ++ " -> " ++ (intercalate " " $ map show lexprs2) ++ ")"
     show (Var var)             = var
 
 type LambdaVarMap = Map LambdaVar LambdaVar
