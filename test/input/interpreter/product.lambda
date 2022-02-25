@@ -1,1 +1,1 @@
-(\input1 \input2 -> (\m \n \f -> m (n f)) input1 input2)
+(\input1 -> (\input2 -> (\m -> (\n -> (\f -> m (n f)))) input1 input2))
