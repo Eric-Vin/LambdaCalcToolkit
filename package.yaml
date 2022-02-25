@@ -37,6 +37,7 @@ executables:
     - -with-rtsopts=-N
     dependencies:
     - LambdaCalcToolkit
+    build-tools:        [alex, happy]
 
 tests:
   LambdaCalcToolkit-test:
