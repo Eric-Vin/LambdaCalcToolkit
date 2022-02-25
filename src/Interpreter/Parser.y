@@ -17,11 +17,9 @@ import Interpreter.Common
   Var       { TVar $$ }
 %%
 
-ExprList  : ExprList Function               {$1 ++ [$2]}
-          | ExprList Application            {$1 ++ [$2]}
-          | Function                        {[$1]}
-          | Var                             {[(Var $1)]}
-          | Application
+ExprList  : Function                        {$1}
+          | Var                             {(Var $1)}
+          | Application                     {$1}
 
 Function  : '(' Slash Var '->' ExprList ')' {Function $3 $5}
 
