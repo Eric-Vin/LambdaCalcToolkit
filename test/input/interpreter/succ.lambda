@@ -1,1 +1,1 @@
-(\input1 -> (\n -> (\f -> (\x -> f (n f x)))) input1)
+(\input1 -> (\n -> (\f -> (\x -> f (n f x) ))) input1)
