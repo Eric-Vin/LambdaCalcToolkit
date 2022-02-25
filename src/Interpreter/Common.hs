@@ -51,7 +51,14 @@ isLambdaFalse _ = False
 isLambdaNum :: [LambdaExpr] -> Bool
 isLambdaNum [(Function var1 [(Function var2 lexprs)])] = confirm_internal lexprs
     where
-        confirm_internal x:[] = x == var_2
-        confirm_internal x:xs = x == var_1 && (confirm_internal xs)
+        confirm_internal ((Var x):[]) = x == var2
+        confirm_internal ((Var x):xs) = x == var1 && (confirm_internal xs)
+        confirm_internal _ = False
 
 isLambdaNum _ = False
+
+convertLambdaNum :: [LambdaExpr] -> Int
+convertLambdaNum [(Function var1 [(Function var2 lexprs)])] = count_internal lexprs
+    where
+        count_internal (_:[]) = 0
+        count_internal (_:xs) = 1 + (count_internal xs)

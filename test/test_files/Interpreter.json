@@ -9,14 +9,14 @@
     {
         "Name"   : "Encodings_False",
         "Input"  : "test/input/interpreter/encodings_false.lambda",
-        "Output" : "False",
+        "Output" : "False/0",
         "Params" : [],
         "Type"   : "Interpreter"
     },
     {
         "Name"   : "Encodings_Nums_1",
         "Input"  : "test/input/interpreter/encodings_nums_1.lambda",
-        "Output" : "0",
+        "Output" : "False/0",
         "Params" : [],
         "Type"   : "Interpreter"
     },
@@ -51,14 +51,14 @@
     {
         "Name"   : "Input_False",
         "Input"  : "test/input/interpreter/identity.lambda",
-        "Output" : "False",
+        "Output" : "False/0",
         "Params" : ["False"],
         "Type"   : "Interpreter"
     },
     {
         "Name"   : "Input_Nums_1",
         "Input"  : "test/input/interpreter/identity.lambda",
-        "Output" : "0",
+        "Output" : "False/0",
         "Params" : ["0"],
         "Type"   : "Interpreter"
     },
@@ -86,7 +86,7 @@
     {
         "Name"   : "Not_False",
         "Input"  : "test/input/interpreter/not.lambda",
-        "Output" : "False",
+        "Output" : "False/0",
         "Params" : ["True"],
         "Type"   : "Interpreter"
     },
@@ -100,7 +100,7 @@
     {
         "Name"   : "Or_2",
         "Input"  : "test/input/interpreter/or.lambda",
-        "Output" : "False",
+        "Output" : "False/0",
         "Params" : ["False", "False"],
         "Type"   : "Interpreter"
     },
@@ -114,7 +114,7 @@
     {
         "Name"   : "And_2",
         "Input"  : "test/input/interpreter/and.lambda",
-        "Output" : "False",
+        "Output" : "False/0",
         "Params" : ["True", "False"],
         "Type"   : "Interpreter"
     },
@@ -142,21 +142,21 @@
     {
         "Name"   : "Sum_1",
         "Input"  : "test/input/interpreter/sum.lambda",
-        "Output" : "0",
+        "Output" : "False/0",
         "Params" : ["0","0"],
         "Type"   : "Interpreter"
     },
     {
         "Name"   : "Pred_1",
         "Input"  : "test/input/interpreter/pred.lambda",
-        "Output" : "0",
+        "Output" : "False/0",
         "Params" : ["0"],
         "Type"   : "Interpreter"
     }, 
     {
         "Name"   : "Pred_2",
         "Input"  : "test/input/interpreter/pred.lambda",
-        "Output" : "0",
+        "Output" : "False/0",
         "Params" : ["1"],
         "Type"   : "Interpreter"
     }, 
@@ -177,7 +177,7 @@
     {
         "Name"   : "Sub_2",
         "Input"  : "test/input/interpreter/sub.lambda",
-        "Output" : "0",
+        "Output" : "False/0",
         "Params" : ["10","11"],
         "Type"   : "Interpreter"
     }, 
@@ -191,7 +191,7 @@
     {
         "Name"   : "Product_2",
         "Input"  : "test/input/interpreter/product.lambda",
-        "Output" : "0",
+        "Output" : "False/0",
         "Params" : ["0","9"],
         "Type"   : "Interpreter"
     }, 

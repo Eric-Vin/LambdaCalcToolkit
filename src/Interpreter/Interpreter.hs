@@ -28,8 +28,8 @@ encodeInputs (x:xs)  = (encode x):(encodeInputs xs)
 decodeOutput :: [LambdaExpr] -> String
 decodeOutput lexprs
     | isLambdaTrue lexprs   = "True"
-    | isLambdaFalse lexprs  = "False"
-    | isLambdaNum lexprs    = undefined
+    | isLambdaFalse lexprs  = "False/0"
+    | isLambdaNum lexprs    = show $ convertLambdaNum lexprs
     | otherwise             = intercalate " " $ map show lexprs
 
 interpret :: [LambdaExpr] -> [LambdaExpr]
