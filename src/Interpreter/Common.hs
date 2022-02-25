@@ -41,10 +41,12 @@ encodeBool True     = Function "x" [Function "y" [(Var "x")]]
 encodeBool False    = Function "x" [Function "y" [(Var "y")]]
 
 isLambdaTrue :: [LambdaExpr] -> Bool
-isLambdaTrue lexprs = False
+isLambdaTrue [(Function var1 [(Function var2 [Var var3])])] = (var1 /= var2) && (var1 == var3)
+isLambdaTrue _ = False
 
 isLambdaFalse :: [LambdaExpr] -> Bool
-isLambdaFalse lexprs = False
+isLambdaFalse [(Function var1 [(Function var2 [Var var3])])] = (var1 /= var2) && (var2 == var3)
+isLambdaFalse _ = False
 
 isLambdaNum :: [LambdaExpr] -> Bool
 isLambdaNum lexprs = False
