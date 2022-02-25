@@ -27,8 +27,8 @@ encodeInputs (x:xs)  = (encode x):(encodeInputs xs)
 
 decodeOutput :: [LambdaExpr] -> String
 decodeOutput lexprs
-    | isLambdaTrue lexprs   = undefined
-    | isLambdaFalse lexprs  = undefined
+    | isLambdaTrue lexprs   = "True"
+    | isLambdaFalse lexprs  = "False"
     | isLambdaNum lexprs    = undefined
     | otherwise             = intercalate " " $ map show lexprs
 
