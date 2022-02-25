@@ -10,8 +10,8 @@ import Interpreter.Common
 %error { parseError }
 
 %token
-  ')'       { TLParen }      
-  '('       { TRParen }
+  '('       { TLParen }      
+  ')'       { TRParen }
   '->'      { TArrow }        
   Slash     { TSlash }     
   Var       { TVar $$ }

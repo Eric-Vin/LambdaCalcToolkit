@@ -113,7 +113,7 @@
     },
     {
         "Name"   : "And_2",
-        "Input"  : "test/input/interpreter/And.lambda",
+        "Input"  : "test/input/interpreter/and.lambda",
         "Output" : "False",
         "Params" : ["True", "False"],
         "Type"   : "Interpreter"

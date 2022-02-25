@@ -28,7 +28,7 @@ encodeInputs (x:xs)  = (encode x):(encodeInputs xs)
 interpret :: [LambdaExpr] -> [LambdaExpr]
 interpret (func@(Function vs lexprs):xs) = 
     if null xs
-    then func
+    then [func]
     else interpret $ applied_func ++ rem_exprs
     where
         (in_expr, rem_exprs) = (head xs, tail xs)
@@ -46,12 +46,12 @@ alphaConversion vars lexpr = alpha_output
     where
         (alpha_output,_,_,_) = alphaMapLexpr vars empty 0 lexpr
 
-        -- alphaMapLexprs :: [LambdaVar] -> LambdaVarMap -> Int -> [LambdaExpr] -> ([LambdaExpr], [LambdaVar], LambdaVarMap, Int)
-        -- alphaMapLexprs vars map i []        = ([], vars, map, i)
-        -- alphaMapLexprs vars map i (x:xs)    = (mapped_lexpr:rem_lexprs, vars'', map'', i'')
-        --     where
-        --         (mapped_lexpr, vars', map', i') = alphaMapLexpr vars map i x
-        --         (rem_lexprs, vars'', map'', i'') = alphaMapLexprs vars' map' i' xs
+        alphaMapLexprs :: [LambdaVar] -> LambdaVarMap -> Int -> [LambdaExpr] -> ([LambdaExpr], [LambdaVar], LambdaVarMap, Int)
+        alphaMapLexprs vars map i []        = ([], vars, map, i)
+        alphaMapLexprs vars map i (x:xs)    = (mapped_lexpr:rem_lexprs, vars'', map'', i'')
+            where
+                (mapped_lexpr, vars', map', i') = alphaMapLexpr vars map i x
+                (rem_lexprs, vars'', map'', i'') = alphaMapLexprs vars' map' i' xs
 
         alphaMapLexpr :: [LambdaVar] -> LambdaVarMap -> Int -> LambdaExpr -> (LambdaExpr, [LambdaVar], LambdaVarMap, Int)
         alphaMapLexpr vars map i (Var v)  = if v `elem` vars
@@ -67,7 +67,7 @@ alphaConversion vars lexpr = alpha_output
 
         alphaMapLexpr vars map i (Function param lexprs) = ((Function mapped_param mapped_lexprs), vars'', map'', i'')
             where
-                (mapped_param, vars', map', i') = alphaMapLvar param map i vars
+                (mapped_param, vars', map', i') = alphaMapLvar vars map i param
                 (mapped_lexprs, vars'', map'', i'') = alphaMapLexprs vars' map' i' lexprs
 
         -- alphaMapLvars :: [LambdaVar] -> LambdaVarMap -> Int -> [LambdaVar] -> ([LambdaVar], [LambdaVar], LambdaVarMap, Int)
@@ -89,15 +89,10 @@ alphaConversion vars lexpr = alpha_output
                 map' = insert v new_var_name map
                 i' = i + 1
 
-betaReduction :: LambdaExpr -> LambdaExpr -> LambdaExpr
-betaReduction (Function vars lexprs) params = 
-    if length vars == 1
-    then mapped_body
-    else Function (tail vars) mapped_body 
+betaReduction :: LambdaExpr -> LambdaExpr -> [LambdaExpr]
+betaReduction (Function vars lexprs) params = mapped_body
     where
-        curr_var = head_vars
-
         mapped_body = undefined
 
-        betaMapLexpr :: LamdaExprMap -> LamdaExpr -> LambdaExpr
-        betaMapLexpr map (x:xs) =  undefined
+        betaMapLexpr :: LambdaExprMap -> LambdaExpr -> LambdaExpr
+        betaMapLexpr map expr =  undefined
