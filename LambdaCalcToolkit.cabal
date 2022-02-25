@@ -28,6 +28,8 @@ library
       Compiler.Compiler
       Interpreter.Common
       Interpreter.Interpreter
+      Interpreter.Lexer
+      Interpreter.Parser
   other-modules:
       Paths_LambdaCalcToolkit
   hs-source-dirs:
