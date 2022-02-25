@@ -36,20 +36,18 @@ decodeOutput lexprs
     | isLambdaNum lexprs    = show $ convertLambdaNum lexprs
     | otherwise             = show lexprs
 
-interpret :: [LambdaExpr] -> [LambdaExpr]
-interpret [] = []
-interpret (func@(Function vs lexprs):xs) = 
-    if null xs
-    then [func]
-    else interpret $ applied_func ++ rem_exprs
+interpret :: LambdaExpr -> LambdaExpr
+interpret app@(Application lexpr1 lexpr2) = 
+    case lexpr1 of
+        (Function var fun_lexpr)    -> applied_func
+        _                           -> app
     where
-        (in_expr, rem_exprs) = (head xs, tail xs)
-        bound_vars = boundVars func
-        fresh_in_exprs = alphaConversion bound_vars in_expr
+        bound_vars = boundVars lexpr1
+        a_lexpr2 = alphaConversion bound_vars lexpr2
 
-        applied_func = betaReduction func in_expr
+        applied_func = betaReduction lexpr1 a_lexpr2
 
-interpret ((Var v):xs) = (Var v):(interpret xs)
+interpret lexpr = lexpr
 
 -- For each LamdaExpr, replaces all instances of variables in [LambdaVar]
 -- with a different variable
