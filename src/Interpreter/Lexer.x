@@ -1,5 +1,5 @@
 {
-module Lexer where
+module Interpreter.Lexer where
 }
 
 %wrapper "basic"
@@ -14,7 +14,7 @@ tokens :-
   \)                        {\_ -> TRParen}
   \-\>                      {\_ -> TArrow}
   \\                        {\_ -> TSlash}
-  $letter [$letter $digit]* {\s -> TVar s }
+  $letter [$letter $digit]* {\s -> TVar s}
 
 {
 data Token 
@@ -22,7 +22,7 @@ data Token
   | TRParen      
   | TArrow         
   | TSlash       
-  | TVar       
+  | TVar String      
   deriving (Eq,Show)
 
 lexer = alexScanTokens

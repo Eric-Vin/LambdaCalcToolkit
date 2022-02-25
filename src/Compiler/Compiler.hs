@@ -7,7 +7,9 @@ import System.IO
 import Debug.Trace
 
 runCompiler :: String -> String -> IO ()
-runCompiler inFile outFile = print evalCommand (State []) . parser . lexer (readFile inFile)
+runCompiler inFile outFile = do
+    input <- readFile inFile
+    print $ (evalCommand (State []) . parser . lexer) input
 
 
 -- Interpreter for the AST

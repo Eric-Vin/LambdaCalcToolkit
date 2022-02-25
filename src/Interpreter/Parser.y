@@ -1,6 +1,6 @@
 {
-module Parser (parser) where
-import Lexer 
+module Interpreter.Parser (parser) where
+import Interpreter.Lexer
 import Data.Char (isDigit, isLetter, isAlphaNum, isSpace)
 import Interpreter.Common
 }
@@ -14,7 +14,7 @@ import Interpreter.Common
   '('       { TRParen }
   '->'      { TArrow }        
   Slash     { TSlash }     
-  VarName   { TVar }
+  VarName   { TVar $$ }
 %%
 
 ExprList  : ExprList Function               {$2:$1}
@@ -24,10 +24,10 @@ ExprList  : ExprList Function               {$2:$1}
 
 Function  : '(' Bindings '->' ExprList ')'  {Function $2 $4}
 
-Bindings  : Bindings Slash Var              {$3:$1}
-          | Slash Var                       {[$2]}
-
 Var       : VarName                         {Var $1}
+
+Bindings  : Bindings Slash VarName          {$1++[$3]}
+          | Slash VarName                   {[$2]}
 
 {
 

@@ -2,7 +2,7 @@
 module Compiler.Parser (parser) where
 import Compiler.Lexer 
 import Data.Char (isDigit, isLetter, isAlphaNum, isSpace)
-import Common
+import Compiler.Common
 }
 
 %name parser
