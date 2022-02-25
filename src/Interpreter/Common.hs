@@ -8,7 +8,11 @@ type LambdaVar = String
 
 data LambdaExpr = Function LambdaVar [LambdaExpr]
                 | Var LambdaVar
-                deriving (Show, Eq)
+                deriving (Eq)
+
+instance Show LambdaExpr where
+    show (Function var lexprs) = "(\\" ++ var ++ " -> " ++ (concat $ map show lexprs) ++ ")"
+    show (Var var)             = var
 
 type LambdaVarMap = Map LambdaVar LambdaVar
 type LambdaExprMap = Map LambdaVar LambdaExpr
@@ -21,8 +25,8 @@ boundVars (Function var lexprs) =var:(foldl foldVars [] lexprs)
     foldVars vs lexpr = vs ++ (boundVars lexpr)
 
 -- Encoding Helper Functions
-encodeInt :: Int -> LambdaExpr
-encodeInt i   = Function func_var [Function input_var (lexpr i)]
+encodeNat :: Int -> LambdaExpr
+encodeNat i   = Function func_var [Function input_var (lexpr i)]
     where
         func_var    = "f"
         input_var   = "x"
@@ -34,3 +38,12 @@ encodeInt i   = Function func_var [Function input_var (lexpr i)]
 encodeBool :: Bool -> LambdaExpr
 encodeBool True     = Function "x" [Function "y" [(Var "x")]]
 encodeBool False    = Function "x" [Function "y" [(Var "y")]]
+
+isLambdaTrue :: [LambdaExpr] -> Bool
+isLambdaTrue lexprs = False
+
+isLambdaFalse :: [LambdaExpr] -> Bool
+isLambdaFalse lexprs = False
+
+isLambdaNum :: [LambdaExpr] -> Bool
+isLambdaNum lexprs = False

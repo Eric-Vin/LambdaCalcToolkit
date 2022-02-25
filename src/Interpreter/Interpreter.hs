@@ -1,7 +1,7 @@
 module Interpreter.Interpreter (runInterpreter) where
 
 import Data.Char
-
+import Data.List (intercalate)
 import Data.Map (empty, (!), insert, member, fromList)
 
 import Interpreter.Common
@@ -14,7 +14,7 @@ runInterpreter file_path params = do
     let parsed_lexprs = (parser . lexer) raw_file
     let enc_params    = encodeInputs params
     let out_lexpts    = interpret (parsed_lexprs ++ enc_params)
-    return $ show out_lexpts
+    return $ decodeOutput out_lexpts
 
 encodeInputs :: [String] -> [LambdaExpr]
 encodeInputs []    = []
@@ -22,8 +22,15 @@ encodeInputs (x:xs)  = (encode x):(encodeInputs xs)
     where
         encode var  | var == "True"     = encodeBool True
                     | var == "False"    = encodeBool False
-                    | all isDigit var   = encodeInt $ read var
+                    | all isDigit var   = encodeNat $ read var
                     | otherwise         = error ("Unrecognized input '" ++ var ++ "'")
+
+decodeOutput :: [LambdaExpr] -> String
+decodeOutput lexprs
+    | isLambdaTrue lexprs   = undefined
+    | isLambdaFalse lexprs  = undefined
+    | isLambdaNum lexprs    = undefined
+    | otherwise             = intercalate " " $ map show lexprs
 
 interpret :: [LambdaExpr] -> [LambdaExpr]
 interpret (func@(Function vs lexprs):xs) = 
@@ -70,13 +77,6 @@ alphaConversion vars lexpr = alpha_output
                 (mapped_param, vars', map', i') = alphaMapLvar vars map i param
                 (mapped_lexprs, vars'', map'', i'') = alphaMapLexprs vars' map' i' lexprs
 
-        -- alphaMapLvars :: [LambdaVar] -> LambdaVarMap -> Int -> [LambdaVar] -> ([LambdaVar], [LambdaVar], LambdaVarMap, Int)
-        -- alphaMapLvars vars map i []     = ([], vars, map, i)
-        -- alphaMapLvars vars map i (x:xs) = (mapped_var:rem_vars, vars'', map'', i'')
-        --     where
-        --         (mapped_var, vars', map', i') = alphaMapLvar vars map i x
-        --         (rem_vars, vars'', map'', i'') = alphaMapLvars vars' map' i' xs
-
         alphaMapLvar :: [LambdaVar] -> LambdaVarMap -> Int -> LambdaVar -> (LambdaVar, [LambdaVar], LambdaVarMap, Int)
         alphaMapLvar vars map i v   = if v `elem` vars
                                       then  if member v map
@@ -90,9 +90,13 @@ alphaConversion vars lexpr = alpha_output
                 i' = i + 1
 
 betaReduction :: LambdaExpr -> LambdaExpr -> [LambdaExpr]
-betaReduction (Function vars lexprs) params = mapped_body
+betaReduction (Function var lexprs) params = map (betaMapLexpr var params) lexprs
     where
-        mapped_body = undefined
+        betaMapLexpr :: LambdaVar -> LambdaExpr -> LambdaExpr -> LambdaExpr
+        betaMapLexpr rep inp (Var v) = if v == rep
+                                       then inp
+                                       else (Var v)
 
-        betaMapLexpr :: LambdaExprMap -> LambdaExpr -> LambdaExpr
-        betaMapLexpr map expr =  undefined
+        betaMapLexpr rep inp (Function vars lexprs) = (Function var mapped_lexprs)
+            where
+                mapped_lexprs = map (betaMapLexpr rep inp) lexprs
