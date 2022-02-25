@@ -1,6 +1,7 @@
 module Interpreter.Common where
 
 import Data.Map (Map)
+import Data.List (intercalate)
 
 -- Lambda Calc Datatypes
 
@@ -11,7 +12,7 @@ data LambdaExpr = Function LambdaVar [LambdaExpr]
                 deriving (Eq)
 
 instance Show LambdaExpr where
-    show (Function var lexprs) = "(\\" ++ var ++ " -> " ++ (concat $ map show lexprs) ++ ")"
+    show (Function var lexprs) = "(\\" ++ var ++ " -> " ++ (intercalate " " $ map show lexprs) ++ ")"
     show (Var var)             = var
 
 type LambdaVarMap = Map LambdaVar LambdaVar

@@ -33,6 +33,7 @@ decodeOutput lexprs
     | otherwise             = intercalate " " $ map show lexprs
 
 interpret :: [LambdaExpr] -> [LambdaExpr]
+interpret [] = []
 interpret (func@(Function vs lexprs):xs) = 
     if null xs
     then [func]
