@@ -7,15 +7,15 @@ import Data.List (intercalate)
 
 type LambdaVar = String
 
-data LambdaExpr = Function LambdaVar [LambdaExpr]
-                | Application [LambdaExpr] [LambdaExpr]
+data LambdaExpr = Function LambdaVar LambdaExpr
+                | Application LambdaExpr LambdaExpr
                 | Var LambdaVar
                 deriving (Eq)
 
 instance Show LambdaExpr where
-    show (Function var lexprs) = "(\\" ++ var ++ " -> " ++ (intercalate " " $ map show lexprs) ++ ")"
-    show (Application lexprs1 lexprs2) = "(\\" ++ (intercalate " " $ map show lexprs1) ++ " -> " ++ (intercalate " " $ map show lexprs2) ++ ")"
-    show (Var var)             = var
+    show (Function var lexpr)       = "(\\" ++ var ++ " -> " ++ (show lexpr) ++ ")"
+    show (Application lexpr1 lexpr2) = "(" ++ (show lexpr1) ++ " " ++ (show lexpr2) ++ ")"
+    show (Var var)                   = var
 
 type LambdaVarMap = Map LambdaVar LambdaVar
 
@@ -50,16 +50,16 @@ isLambdaFalse (Function var1 [(Function var2 [Var var3])]) = (var1 /= var2) && (
 isLambdaFalse _ = False
 
 isLambdaNum :: LambdaExpr -> Bool
-isLambdaNum (Function var1 [(Function var2 lexprs)]) = confirm_internal lexprs
+isLambdaNum (Function var1 [(Function var2 lexpr)]) = confirm_internal lexpr
     where
-        confirm_internal ((Var x):[]) = x == var2
-        confirm_internal ((Var x):xs) = x == var1 && (confirm_internal xs)
+        confirm_internal (Application (Var x) (Var y)) = (x == var1) && (y == var2)
+        confirm_internal (Application (Var x) y) = (x == var1) && (confirm_internal y)
         confirm_internal _ = False
 
 isLambdaNum _ = False
 
 convertLambdaNum :: LambdaExpr -> Int
-convertLambdaNum (Function var1 [(Function var2 lexprs)]) = count_internal lexprs
+convertLambdaNum (Function var1 [(Function var2 lexpr)]) = count_internal lexpr
     where
         count_internal (_:[]) = 0
         count_internal (_:xs) = 1 + (count_internal xs)
