@@ -11,9 +11,9 @@ import Interpreter.Parser
 runInterpreter :: String -> [String] -> IO String
 runInterpreter file_path params = do
     raw_file      <- readFile file_path
-    let parsed_lexprs = (parser . lexer) raw_file
+    let parsed_lexpr  = (parser . lexer) raw_file
     let enc_params    = encodeInputs params
-    let out_lexpts    = interpret (parsed_lexprs ++ enc_params)
+    let out_lexpts    = interpret (applyInputs parsed_lexpr enc_params)
     return $ decodeOutput out_lexpts
 
 encodeInputs :: [String] -> [LambdaExpr]
@@ -25,12 +25,16 @@ encodeInputs (x:xs)  = (encode x):(encodeInputs xs)
                     | all isDigit var   = encodeNat $ read var
                     | otherwise         = error ("Unrecognized input '" ++ var ++ "'")
 
-decodeOutput :: [LambdaExpr] -> String
+applyInputs :: LambdaExpr -> [LambdaExpr] -> LambdaExpr
+applyInputs f []    = f
+applyInputs f x:xs  = Application (applyInputs xs) x
+
+decodeOutput :: LambdaExpr -> String
 decodeOutput lexprs
     | isLambdaTrue lexprs   = "True"
     | isLambdaFalse lexprs  = "False/0"
     | isLambdaNum lexprs    = show $ convertLambdaNum lexprs
-    | otherwise             = intercalate " " $ map show lexprs
+    | otherwise             = show lexprs
 
 interpret :: [LambdaExpr] -> [LambdaExpr]
 interpret [] = []
