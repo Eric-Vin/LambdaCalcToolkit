@@ -100,4 +100,4 @@ betaReduction (Function vars lexprs) params =
         mapped_body = undefined
 
         betaMapLexpr :: LamdaExprMap -> LamdaExpr -> LambdaExpr
-        betaMapLexpr map (x:xs) =  
+        betaMapLexpr map (x:xs) =  undefined

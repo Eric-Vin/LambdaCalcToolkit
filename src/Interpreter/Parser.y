@@ -18,7 +18,7 @@ import Interpreter.Common
 %%
 
 ExprList  : ExprList Function               {$1 ++ [$2]}
-          | ExprList Var                    {$1 ++ [$2]}
+          | ExprList Var                    {$1 ++ [(Var $2)]}
           | Function                        {[$1]}
           | Var                             {[(Var $1)]}
 
