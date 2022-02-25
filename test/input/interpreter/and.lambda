@@ -1,1 +1,1 @@
-(\input1 -> (\input2 -> (\x -> (\y -> x y x))) input1 input2))
+(\input1 -> (\input2 -> (\x -> (\y -> x y x)) input1 input2))
