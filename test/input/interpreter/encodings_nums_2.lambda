@@ -1,1 +1,1 @@
-(\zip -> (\rip -> zip rip))
+(\zip -> (\rip -> (zip rip)))
