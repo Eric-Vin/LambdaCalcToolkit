@@ -16,7 +16,6 @@ instance Show LambdaExpr where
     show (Var var)             = var
 
 type LambdaVarMap = Map LambdaVar LambdaVar
-type LambdaExprMap = Map LambdaVar LambdaExpr
 
 -- Utility Functions
 boundVars :: LambdaExpr -> [LambdaVar]
