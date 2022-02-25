@@ -8,17 +8,20 @@ import Interpreter.Common
 import Interpreter.Lexer
 import Interpreter.Parser
 
+import Debug.Trace
+
 runInterpreter :: String -> [String] -> IO String
 runInterpreter file_path params = do
     raw_file      <- readFile file_path
     let parsed_lexpr  = (parser . lexer) raw_file
     let enc_params    = encodeInputs params
-    let out_lexpts    = interpret (applyInputs parsed_lexpr enc_params)
+    let comp_expr     = applyInputs parsed_lexpr enc_params
+    let out_lexpts    = interpretFixedPoint comp_expr 
     return $ decodeOutput out_lexpts
 
 encodeInputs :: [String] -> [LambdaExpr]
-encodeInputs []    = []
-encodeInputs (x:xs)  = (encode x):(encodeInputs xs)
+encodeInputs []     = []
+encodeInputs (x:xs) = (encode x):(encodeInputs xs)
     where
         encode var  | var == "True"     = encodeBool True
                     | var == "False"    = encodeBool False
@@ -26,28 +29,40 @@ encodeInputs (x:xs)  = (encode x):(encodeInputs xs)
                     | otherwise         = error ("Unrecognized input '" ++ var ++ "'")
 
 applyInputs :: LambdaExpr -> [LambdaExpr] -> LambdaExpr
-applyInputs f []    = f
-applyInputs f x:xs  = Application (applyInputs xs) x
+applyInputs f []        = f
+applyInputs f (x:xs)    = Application (applyInputs f xs) x
 
 decodeOutput :: LambdaExpr -> String
 decodeOutput lexprs
     | isLambdaTrue lexprs   = "True"
     | isLambdaFalse lexprs  = "False/0"
     | isLambdaNum lexprs    = show $ convertLambdaNum lexprs
-    | otherwise             = show lexprs
+    | otherwise             = show (Pretty lexprs)
+
+interpretFixedPoint :: LambdaExpr -> LambdaExpr
+interpretFixedPoint lexpr = if progress
+                            then interpret new_lexpr
+                            else new_lexpr
+    where
+        new_lexpr = interpret lexpr
+        progress = lexpr /= new_lexpr
 
 interpret :: LambdaExpr -> LambdaExpr
 interpret app@(Application lexpr1 lexpr2) = 
     case lexpr1 of
-        (Function var fun_lexpr)    -> applied_func
-        _                           -> app
+        (Function _ _)    -> interpret applied_func
+        _                 -> if (interpret lexpr1) == lexpr1 
+                             then Application lexpr1 (interpret lexpr2)
+                             else Application (interpret lexpr1) lexpr2
     where
         bound_vars = boundVars lexpr1
         a_lexpr2 = alphaConversion bound_vars lexpr2
 
         applied_func = betaReduction lexpr1 a_lexpr2
 
-interpret lexpr = lexpr
+interpret (Function var lexpr) = Function var (interpret lexpr)
+
+interpret x = x
 
 -- For each LamdaExpr, replaces all instances of variables in [LambdaVar]
 -- with a different variable
@@ -73,9 +88,9 @@ alphaConversion vars lexpr = alpha_output
                 (mapped_param, vars', map', i') = alphaMapLvar vars map i param
                 (mapped_lexprs, vars'', map'', i'') = alphaMapLexpr vars' map' i' lexpr
 
-        alphaMapLexpr vars map i (Application lexpr1 lexpr2) = ((Application mapped_lexpr2 mapped_lexpr2), vars'', map'', i'')
+        alphaMapLexpr vars map i (Application lexpr1 lexpr2) = ((Application mapped_lexpr1 mapped_lexpr2), vars'', map'', i'')
             where
-                (mapped_lexpr2, vars', map', i') = alphaMapLexpr vars map i lexpr1
+                (mapped_lexpr1, vars', map', i') = alphaMapLexpr vars map i lexpr1
                 (mapped_lexpr2, vars'', map'', i'') = alphaMapLexpr vars' map' i' lexpr2
 
         alphaMapLvar :: [LambdaVar] -> LambdaVarMap -> Int -> LambdaVar -> (LambdaVar, [LambdaVar], LambdaVarMap, Int)
@@ -91,19 +106,19 @@ alphaConversion vars lexpr = alpha_output
                 i' = i + 1
 
 betaReduction :: LambdaExpr -> LambdaExpr -> LambdaExpr
-betaReduction (Function var lexpr) param = map (betaMapLexpr var param) lexpr
+betaReduction (Function var lexpr) param = betaMapLexpr var param lexpr
     where
         betaMapLexpr :: LambdaVar -> LambdaExpr -> LambdaExpr -> LambdaExpr
         betaMapLexpr rep inp (Var v) = if v == rep
                                        then inp
                                        else (Var v)
 
-        betaMapLexpr rep inp (Function vars lexprs) = (Function var mapped_lexprs)
+        betaMapLexpr rep inp (Function vars lexpr) = (Function vars mapped_lexpr)
             where
-                mapped_lexprs = map (betaMapLexpr rep inp) lexprs
+                mapped_lexpr = betaMapLexpr rep inp lexpr
 
         betaMapLexpr rep inp (Application lexpr1 lexpr2) = (Application lexpr1' lexpr2')
             where
-                lexpr1' = map (betaMapLexpr rep inp) lexpr1
-                lexpr2' = map (betaMapLexpr rep inp) lexpr2
+                lexpr1' = betaMapLexpr rep inp lexpr1
+                lexpr2' = betaMapLexpr rep inp lexpr2
 

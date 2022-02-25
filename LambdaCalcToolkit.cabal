@@ -43,6 +43,7 @@ library
     , containers
     , directory
     , filepath
+    , ghc
   default-language: Haskell2010
 
 executable LambdaCalcToolkit-exe
@@ -62,6 +63,7 @@ executable LambdaCalcToolkit-exe
     , containers
     , directory
     , filepath
+    , ghc
   default-language: Haskell2010
 
 test-suite LambdaCalcToolkit-test
@@ -82,6 +84,7 @@ test-suite LambdaCalcToolkit-test
     , containers
     , directory
     , filepath
+    , ghc
     , tasty
     , tasty-golden
     , tasty-hunit

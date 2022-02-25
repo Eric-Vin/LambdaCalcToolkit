@@ -13,7 +13,7 @@ main = do
         let mode_args = tail args
         
         case head args of
-            "interpret"     -> runInterpreter (head mode_args) (tail mode_args) >>= print
+            "interpret"     -> runInterpreter (head mode_args) (drop 1 mode_args) >>= print
             "compile"       -> runCompiler (head mode_args) (head $ tail mode_args)
 
 

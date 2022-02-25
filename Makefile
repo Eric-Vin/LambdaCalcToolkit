@@ -1,5 +1,5 @@
 STACK = stack
-EXE   = LambdaCalcToolkit
+EXE   = LambdaCalcToolkit-exe
 
 TEST_NUM_THREADS = 12
 TEST_TIMEOUT= 5
