@@ -140,7 +140,7 @@
         "Type"   : "Interpreter"
     },
     {
-        "Name"   : "Sum_1",
+        "Name"   : "Sum_2",
         "Input"  : "test/input/interpreter/sum.lambda",
         "Output" : "False/0",
         "Params" : ["0","0"],

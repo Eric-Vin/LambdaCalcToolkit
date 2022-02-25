@@ -1,1 +1,1 @@
-(\input1 -> (\input2 -> (\a -> (\b -> b (\n -> (\f -> (\x -> n (\g \h -> h (g f)) (\u->x) (\u->u)) a)))) input1 input2))
+(\input1 -> (\input2 -> (((\a -> (\b -> ((b (\n -> (\f -> (\x -> (((n (\g -> (\h -> (h (g f))))) (\u->x)) (\u->u)))))) a))) input1) input2)))
