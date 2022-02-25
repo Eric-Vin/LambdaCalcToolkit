@@ -49,4 +49,9 @@ isLambdaFalse [(Function var1 [(Function var2 [Var var3])])] = (var1 /= var2) &&
 isLambdaFalse _ = False
 
 isLambdaNum :: [LambdaExpr] -> Bool
-isLambdaNum lexprs = False
+isLambdaNum [(Function var1 [(Function var2 lexprs)])] = confirm_internal lexprs
+    where
+        confirm_internal x:[] = x == var_2
+        confirm_internal x:xs = x == var_1 && (confirm_internal xs)
+
+isLambdaNum _ = False
