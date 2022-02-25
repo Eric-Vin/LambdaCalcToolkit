@@ -1,1 +1,1 @@
-(\f -> (\goo -> (((((f f) f) f) f) goo)))
+(\f -> (\goo -> (f (f (f (f (f goo))))) ))
