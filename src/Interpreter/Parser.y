@@ -14,20 +14,15 @@ import Interpreter.Common
   '('       { TRParen }
   '->'      { TArrow }        
   Slash     { TSlash }     
-  VarName   { TVar $$ }
+  Var       { TVar $$ }
 %%
 
-ExprList  : ExprList Function               {$2:$1}
-          | ExprList Var                    {$2:$1}
+ExprList  : ExprList Function               {$1 ++ [$2]}
+          | ExprList Var                    {$1 ++ [$2]}
           | Function                        {[$1]}
-          | Var                             {[$1]}
+          | Var                             {[(Var $1)]}
 
-Function  : '(' Bindings '->' ExprList ')'  {Function $2 $4}
-
-Var       : VarName                         {Var $1}
-
-Bindings  : Bindings Slash VarName          {$1++[$3]}
-          | Slash VarName                   {[$2]}
+Function  : '(' Slash Var '->' ExprList ')' {Function $3 $5}
 
 {
 
