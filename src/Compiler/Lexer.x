@@ -32,8 +32,6 @@ tokens :-
   \¬                        {\_ -> TComp}
   \∧                        {\_ -> TLand}
   \∨                        {\_ -> TLor}
-  \?                        {\_ -> TTern}
-  \:                        {\_ -> TCol}
   $digit+                   {\s -> TInt (read s)}
   $letter [$letter $digit]* {\s -> TVar s }
 
@@ -61,8 +59,6 @@ data Token
   | TComp       
   | TLand       
   | TLor    
-  | TTern
-  | TCol    
   | TVar String 
   | TInt Int
   deriving (Eq,Show)

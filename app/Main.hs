@@ -1,12 +1,16 @@
 module Main where
 
 import System.Environment
+import System.IO
+import qualified System.IO.Utf8 as Utf8
 
 import Interpreter.Interpreter(runInterpreter)
 import Compiler.Compiler(runCompiler)
 
 main :: IO ()
 main = do
+        hSetEncoding stdin utf8
+        hSetEncoding stdout utf8
         args    <- getArgs
 
         let mode = head args

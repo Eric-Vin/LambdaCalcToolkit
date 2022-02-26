@@ -32,8 +32,6 @@ import Compiler.Common
   '~'       { TComp }       
   '&'       { TLand }       
   '|'       { TLor }   
-  ':'       { TCol }       
-  '?'       { TTern }   
   Var       { TVar $$ } 
   Int       { TInt $$ }
 %%
@@ -67,12 +65,8 @@ BAtom   : true              {Boolean True}
         | '(' BExpr ')'     {$2}
 
 
-AExpr   : Tern              {$1}
+AExpr   : Sum              {$1}
 
-Tern    : '(' BExpr ')' 
-          '?' AExpr ':' 
-          AExpr             {Ternary $2 $5 $7}
-        | Sum               {$1}
 
 Sum     : Sum '+' Prod      {Add $1 $3}
         | Sum '-' Prod      {Sub $1 $3}
@@ -84,7 +78,7 @@ Prod    : Prod '*' Unary    {Mult $1 $3}
 Unary   : '-' AAtom         {Neg $2}
         | AAtom             {$1}
 
-AAtom   : Var               {Var $1}
+AAtom   : Var               {Variable $1}
         | Int               {Number $1}
         | '(' AExpr ')'     {$2}
 

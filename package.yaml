@@ -26,6 +26,7 @@ dependencies:
 - array
 - containers
 - ghc
+- with-utf8
 
 library:
   source-dirs: src
