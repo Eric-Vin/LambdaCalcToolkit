@@ -18,7 +18,6 @@ runInterpreter file_path params = do
     let parsed_lexpr  = (parser . lexer) raw_file
     let enc_params    = encodeInputs $ reverse params
     let comp_expr     = applyInputs parsed_lexpr enc_params
-    --print $ Pretty comp_expr
     let out_lexpts    = interpretFixedPoint comp_expr
     return $ decodeOutput out_lexpts
 
@@ -55,21 +54,23 @@ interpret :: [LambdaVar] -> LambdaExpr -> LambdaExpr
 interpret r_vars (Application lexpr1 lexpr2) = 
     case lexpr1 of
         (Function _ _)    -> applied_func
-        _                 -> if new_lexpr_1 == lexpr1 
-                             then Application lexpr1 (interpret r_vars lexpr2)
-                             else Application new_lexpr_1 lexpr2
+        _                 -> if new_lexpr_1 /= lexpr1
+                             then Application new_lexpr_1 lexpr2
+                             else Application lexpr1 new_lexpr_2
     where
         a_lexpr2 = alphaConversion r_vars lexpr2
 
         applied_func = betaReduction lexpr1 a_lexpr2
 
         new_lexpr_1 = interpret r_vars lexpr1
+        new_lexpr_2 = interpret r_vars lexpr2
 
 interpret r_vars (Function var lexpr) = Function var (interpret r_vars lexpr)
 
 interpret r_vars (Var v) = (Var v)
 
--- For each LamdaExpr, replaces all instances of variables in [LambdaVar]
+
+-- For each LambdaExpr, replaces all instances of variables in [LambdaVar]
 -- with a different variable
 alphaConversion :: [LambdaVar] -> LambdaExpr -> LambdaExpr
 alphaConversion reserved_vars lexpr = alpha_output
@@ -126,7 +127,9 @@ betaReduction (Function var lexpr) param = betaMapLexpr var param lexpr
                                        then inp
                                        else (Var v)
 
-        betaMapLexpr rep inp (Function vars lexpr) = (Function vars mapped_lexpr)
+        betaMapLexpr rep inp (Function var lexpr) = if rep /= var
+                                                    then (Function var mapped_lexpr)
+                                                    else (Function var lexpr)
             where
                 mapped_lexpr = betaMapLexpr rep inp lexpr
 
