@@ -1,5 +1,7 @@
 module Interpreter.Interpreter (runInterpreter) where
 
+import GHC.Stack
+
 import Data.Char
 import Data.List (intercalate)
 import Data.Map (empty, (!), insert, member, fromList)
@@ -16,7 +18,8 @@ runInterpreter file_path params = do
     let parsed_lexpr  = (parser . lexer) raw_file
     let enc_params    = encodeInputs $ reverse params
     let comp_expr     = applyInputs parsed_lexpr enc_params
-    let out_lexpts    = interpretFixedPoint comp_expr 
+    --print $ Pretty comp_expr
+    let out_lexpts    = interpretFixedPoint comp_expr
     return $ decodeOutput out_lexpts
 
 encodeInputs :: [String] -> [LambdaExpr]
@@ -49,20 +52,22 @@ interpretFixedPoint lexpr = if progress
         progress  = lexpr /= new_lexpr
 
 interpret :: [LambdaVar] -> LambdaExpr -> LambdaExpr
-interpret r_vars app@(Application lexpr1 lexpr2) = 
+interpret r_vars (Application lexpr1 lexpr2) = 
     case lexpr1 of
         (Function _ _)    -> applied_func
-        _                 -> if (interpret r_vars lexpr1) == lexpr1 
+        _                 -> if new_lexpr_1 == lexpr1 
                              then Application lexpr1 (interpret r_vars lexpr2)
-                             else Application (interpret r_vars lexpr1) lexpr2
+                             else Application new_lexpr_1 lexpr2
     where
         a_lexpr2 = alphaConversion r_vars lexpr2
 
         applied_func = betaReduction lexpr1 a_lexpr2
 
+        new_lexpr_1 = interpret r_vars lexpr1
+
 interpret r_vars (Function var lexpr) = Function var (interpret r_vars lexpr)
 
-interpret r_vars x = x
+interpret r_vars (Var v) = (Var v)
 
 -- For each LamdaExpr, replaces all instances of variables in [LambdaVar]
 -- with a different variable
@@ -130,3 +135,4 @@ betaReduction (Function var lexpr) param = betaMapLexpr var param lexpr
                 lexpr1' = betaMapLexpr rep inp lexpr1
                 lexpr2' = betaMapLexpr rep inp lexpr2
 
+-- traceStack ("Calling betaReduction\n" ++ prettyCallStack callStack) $
