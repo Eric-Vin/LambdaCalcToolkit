@@ -29,14 +29,14 @@ boundVars (Application lexpr1 lexpr2)   = (boundVars lexpr1) ++ (boundVars lexpr
 
 -- Encoding Helper Functions
 encodeNat :: Int -> LambdaExpr
-encodeNat i   = Function func_var (Function input_var (lexpr i))
+encodeNat i   = Function func_var (Function input_var (lexpr i (Var input_var)))
     where
         func_var    = "f"
         input_var   = "x"
 
-        lexpr j     =   if j == 0
-                        then (Var input_var)
-                        else Application (Var func_var) (lexpr (j-1))
+        lexpr j c_expr  =   if j == 0
+                            then c_expr
+                            else lexpr (j-1) (Application (Var func_var) c_expr)
 
 encodeBool :: Bool -> LambdaExpr
 encodeBool True     = Function "x" (Function "y" ((Var "x")))
@@ -54,13 +54,15 @@ isLambdaNum :: LambdaExpr -> Bool
 isLambdaNum (Function var1 (Function var2 lexpr)) = confirm_internal lexpr
     where
         confirm_internal (Application (Var x) (Var y)) = (x == var1) && (y == var2)
-        confirm_internal (Application (Var x) y) = (x == var1) && (confirm_internal y)
+        confirm_internal (Application (Var x) y) = if (x == var1)
+                                                   then (confirm_internal y)
+                                                   else False
         confirm_internal _ = False
 
 isLambdaNum _ = False
 
 convertLambdaNum :: LambdaExpr -> Int
-convertLambdaNum (Function var1 (Function var2 lexpr)) = count_internal lexpr
+convertLambdaNum (Function var1 (Function var2 lexpr)) = count_internal 0 lexpr
     where
-        count_internal (Application (Var x) (Var y)) = 1
-        count_internal (Application (Var x) y) = 1 + (count_internal y)
+        count_internal acc (Application (Var x) (Var y)) = acc + 1
+        count_internal acc (Application (Var x) y) = count_internal (acc+1) y

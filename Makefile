@@ -2,7 +2,7 @@ STACK = stack
 EXE   = LambdaCalcToolkit-exe
 
 TEST_NUM_THREADS = 12
-TEST_TIMEOUT= 5
+TEST_TIMEOUT= 15
 
 .PHONY: all
 

@@ -14,9 +14,8 @@ runInterpreter :: String -> [String] -> IO String
 runInterpreter file_path params = do
     raw_file      <- readFile file_path
     let parsed_lexpr  = (parser . lexer) raw_file
-    let enc_params    = encodeInputs params
+    let enc_params    = encodeInputs $ reverse params
     let comp_expr     = applyInputs parsed_lexpr enc_params
-    print comp_expr
     let out_lexpts    = interpretFixedPoint comp_expr 
     return $ decodeOutput out_lexpts
 
@@ -45,25 +44,25 @@ interpretFixedPoint lexpr = if progress
                             then interpretFixedPoint new_lexpr
                             else new_lexpr
     where
-        new_lexpr = interpret lexpr
-        progress = lexpr /= new_lexpr
+        used_vars = boundVars lexpr
+        new_lexpr = interpret used_vars lexpr
+        progress  = lexpr /= new_lexpr
 
-interpret :: LambdaExpr -> LambdaExpr
-interpret app@(Application lexpr1 lexpr2) = 
+interpret :: [LambdaVar] -> LambdaExpr -> LambdaExpr
+interpret r_vars app@(Application lexpr1 lexpr2) = 
     case lexpr1 of
         (Function _ _)    -> applied_func
-        _                 -> if (interpret lexpr1) == lexpr1 
-                             then Application lexpr1 (interpret lexpr2)
-                             else Application (interpret lexpr1) lexpr2
+        _                 -> if (interpret r_vars lexpr1) == lexpr1 
+                             then Application lexpr1 (interpret r_vars lexpr2)
+                             else Application (interpret r_vars lexpr1) lexpr2
     where
-        bound_vars = boundVars lexpr1
-        a_lexpr2 = alphaConversion bound_vars lexpr2
+        a_lexpr2 = alphaConversion r_vars lexpr2
 
         applied_func = betaReduction lexpr1 a_lexpr2
 
-interpret (Function var lexpr) = Function var (interpret lexpr)
+interpret r_vars (Function var lexpr) = Function var (interpret r_vars lexpr)
 
-interpret x = x
+interpret r_vars x = x
 
 -- For each LamdaExpr, replaces all instances of variables in [LambdaVar]
 -- with a different variable

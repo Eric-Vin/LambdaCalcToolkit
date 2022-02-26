@@ -35,13 +35,6 @@
         "Type"   : "Interpreter"
     },
     {
-        "Name"   : "Encodings_Function",
-        "Input"  : "test/input/interpreter/encodings_function.lambda",
-        "Output" : "(\\x -> x)",
-        "Params" : [],
-        "Type"   : "Interpreter"
-    },
-    {
         "Name"   : "Input_True",
         "Input"  : "test/input/interpreter/identity.lambda",
         "Output" : "True",
@@ -179,6 +172,27 @@
         "Input"  : "test/input/interpreter/sub.lambda",
         "Output" : "False/0",
         "Params" : ["10","11"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Sub_3",
+        "Input"  : "test/input/interpreter/sub.lambda",
+        "Output" : "False/0",
+        "Params" : ["10","13"],
+        "Type"   : "Interpreter"
+    }, 
+    {
+        "Name"   : "Sub_4",
+        "Input"  : "test/input/interpreter/sub.lambda",
+        "Output" : "8",
+        "Params" : ["10","2"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Sub_5",
+        "Input"  : "test/input/interpreter/sub.lambda",
+        "Output" : "False/0",
+        "Params" : ["10","10"],
         "Type"   : "Interpreter"
     }, 
     {
