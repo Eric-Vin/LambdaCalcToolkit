@@ -208,5 +208,19 @@
         "Output" : "1",
         "Params" : ["1"],
         "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Factorial_1",
+        "Input"  : "test/input/interpreter/factorial.lambda",
+        "Output" : "1",
+        "Params" : ["1"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Factorial_2",
+        "Input"  : "test/input/interpreter/factorial.lambda",
+        "Output" : "6",
+        "Params" : ["3"],
+        "Type"   : "Interpreter"
     }
 ]
