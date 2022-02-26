@@ -215,5 +215,26 @@
         "Output" : "20",
         "Params" : ["4","5"],
         "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Alpha_Conversion",
+        "Input"  : "test/input/interpreter/ac.lambda",
+        "Output" : "1",
+        "Params" : ["1"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Factorial_1",
+        "Input"  : "test/input/interpreter/factorial.lambda",
+        "Output" : "1",
+        "Params" : ["1"],
+        "Type"   : "Interpreter"
+    },
+    {
+        "Name"   : "Factorial_2",
+        "Input"  : "test/input/interpreter/factorial.lambda",
+        "Output" : "6",
+        "Params" : ["3"],
+        "Type"   : "Interpreter"
     }
 ]
