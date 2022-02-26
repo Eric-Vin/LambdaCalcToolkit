@@ -16,6 +16,7 @@ runInterpreter file_path params = do
     let parsed_lexpr  = (parser . lexer) raw_file
     let enc_params    = encodeInputs params
     let comp_expr     = applyInputs parsed_lexpr enc_params
+    print comp_expr
     let out_lexpts    = interpretFixedPoint comp_expr 
     return $ decodeOutput out_lexpts
 
@@ -41,7 +42,7 @@ decodeOutput lexprs
 
 interpretFixedPoint :: LambdaExpr -> LambdaExpr
 interpretFixedPoint lexpr = if progress
-                            then interpret new_lexpr
+                            then interpretFixedPoint new_lexpr
                             else new_lexpr
     where
         new_lexpr = interpret lexpr
@@ -50,7 +51,7 @@ interpretFixedPoint lexpr = if progress
 interpret :: LambdaExpr -> LambdaExpr
 interpret app@(Application lexpr1 lexpr2) = 
     case lexpr1 of
-        (Function _ _)    -> interpret applied_func
+        (Function _ _)    -> applied_func
         _                 -> if (interpret lexpr1) == lexpr1 
                              then Application lexpr1 (interpret lexpr2)
                              else Application (interpret lexpr1) lexpr2
@@ -67,43 +68,51 @@ interpret x = x
 -- For each LamdaExpr, replaces all instances of variables in [LambdaVar]
 -- with a different variable
 alphaConversion :: [LambdaVar] -> LambdaExpr -> LambdaExpr
-alphaConversion vars lexpr = alpha_output
+alphaConversion reserved_vars lexpr = alpha_output
     where
-        (alpha_output,_,_,_) = alphaMapLexpr vars empty 0 lexpr
+        key_vars = boundVars lexpr
 
-        alphaMapLexpr :: [LambdaVar] -> LambdaVarMap -> Int -> LambdaExpr -> (LambdaExpr, [LambdaVar], LambdaVarMap, Int)
-        alphaMapLexpr vars map i (Var v)  = if v `elem` vars
-                                          then  if member v map
-                                                then ((Var (map ! v)), vars, map, i)
-                                                else ((Var new_var_name), vars', map', i')
-                                          else ((Var v), vars, map, i)
-            where
-                new_var_name = "a" ++ (show i)
-                vars' = new_var_name:vars
-                map' = insert v new_var_name map
-                i' = i + 1
+        alpha_map = createVarMap key_vars reserved_vars
 
-        alphaMapLexpr vars map i (Function param lexpr) = ((Function mapped_param mapped_lexprs), vars'', map'', i'')
-            where
-                (mapped_param, vars', map', i') = alphaMapLvar vars map i param
-                (mapped_lexprs, vars'', map'', i'') = alphaMapLexpr vars' map' i' lexpr
+        alpha_output = alphaMapLexpr alpha_map lexpr
 
-        alphaMapLexpr vars map i (Application lexpr1 lexpr2) = ((Application mapped_lexpr1 mapped_lexpr2), vars'', map'', i'')
-            where
-                (mapped_lexpr1, vars', map', i') = alphaMapLexpr vars map i lexpr1
-                (mapped_lexpr2, vars'', map'', i'') = alphaMapLexpr vars' map' i' lexpr2
+        alphaMapLexpr :: LambdaVarMap -> LambdaExpr -> LambdaExpr
+        alphaMapLexpr map (Var v)   =   if v `member` map
+                                        then Var (map ! v)
+                                        else Var v
 
-        alphaMapLvar :: [LambdaVar] -> LambdaVarMap -> Int -> LambdaVar -> (LambdaVar, [LambdaVar], LambdaVarMap, Int)
-        alphaMapLvar vars map i v   = if v `elem` vars
-                                      then  if member v map
-                                            then ((map ! v), vars, map, i)
-                                            else (new_var_name, vars', map', i')
-                                      else ( v, vars, map, i)
+        alphaMapLexpr map (Function param lexpr) = Function mapped_param mapped_lexprs
             where
-                new_var_name = "a" ++ (show i)
-                vars' = new_var_name:vars
-                map' = insert v new_var_name map
-                i' = i + 1
+                mapped_param = alphaMapLvar map param
+                mapped_lexprs = alphaMapLexpr map lexpr
+
+        alphaMapLexpr map (Application lexpr1 lexpr2) = Application mapped_lexpr1 mapped_lexpr2
+            where
+                mapped_lexpr1 = alphaMapLexpr map lexpr1
+                mapped_lexpr2 = alphaMapLexpr map lexpr2
+
+        alphaMapLvar :: LambdaVarMap -> LambdaVar -> LambdaVar
+        alphaMapLvar map v  =   if v `member` map
+                                then map ! v
+                                else v
+
+-- Creates a mapping from k_vars to a new set of variables, none of which are
+-- in k_vars or r_vars
+createVarMap :: [LambdaVar] -> [LambdaVar] -> LambdaVarMap
+createVarMap k_vars r_vars = createVarMapHelper (k_vars ++ r_vars) 0 k_vars
+    where
+        createVarMapHelper :: [LambdaVar] -> Int -> [LambdaVar] -> LambdaVarMap
+        createVarMapHelper banned_vars i []     = empty
+        createVarMapHelper banned_vars i (v:vs) = insert v new_var (createVarMapHelper banned_vars i' vs)
+            where
+                (new_var, i') = getNewVar banned_vars i
+
+        getNewVar :: [LambdaVar] -> Int -> (LambdaVar, Int)
+        getNewVar banned_vars i =   if new_var `elem` banned_vars
+                                    then getNewVar banned_vars (i+1)
+                                    else (new_var, i+1)
+            where
+                new_var = "a" ++ (show i)
 
 betaReduction :: LambdaExpr -> LambdaExpr -> LambdaExpr
 betaReduction (Function var lexpr) param = betaMapLexpr var param lexpr
