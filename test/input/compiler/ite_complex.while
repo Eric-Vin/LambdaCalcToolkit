@@ -1,0 +1,3 @@
+input x,y,z
+if (2 < x ∨ 4 < y) ∧ z > 3 then x := 1 else x := 3
+print x

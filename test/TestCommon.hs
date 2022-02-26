@@ -5,7 +5,7 @@ import Test.Tasty (TestTree, testGroup)
 import Test.Tasty.Golden (findByExtension)
 import Test.Tasty.HUnit (testCase, assertBool)
 
-import System.FilePath (takeBaseName, takeDirectory, dropExtension)
+import System.FilePath (takeBaseName, takeDirectory, dropExtension, splitPath, joinPath)
 import System.Directory (createDirectoryIfMissing)
 import System.IO
 import System.Exit
@@ -58,10 +58,11 @@ generateTestGroup test_group = testGroup (testGroupName test_group) test_tree
 generateTests :: Test -> TestTree
 generateTests test    = case (testType test) of
                                 Interpreter  -> testCase test_name (assertInterpreterOutput (runInterpreter input_path params) output)
-                                _            -> error "Unsupported TestType"
+                                Compiler     -> testCase test_name ((runCompiler input_path output_path) >> (assertInterpreterOutput (runInterpreter output_path params) output))
                             where
                                 test_name   = testName test
                                 input_path  = testInput test
+                                output_path = inputToOutputPath input_path
                                 output      = testOutput test
                                 params      = testParams test
 
@@ -69,6 +70,11 @@ assertInterpreterOutput :: IO String -> String -> IO ()
 assertInterpreterOutput value expected = do
                                         value' <- value
                                         assertBool ("Expected \"" ++ expected ++ "\", got \"" ++ value' ++ "\"") (value' == expected)
+
+inputToOutputPath :: String -> String
+inputToOutputPath in_path = "test/output/" ++ (joinPath file_tail)
+    where
+        file_tail = Prelude.drop 2 $ splitPath in_path
 
 ---------------------------------------------------------------------------------------------------
 --Functions for parsing test/test_files/ for all test file JSONS

@@ -31,4 +31,4 @@ purge: clean_test
 	$(STACK) purge
 
 clean_test:
-	rm -rf test/output
+	rm -rf test/output/compiler/*

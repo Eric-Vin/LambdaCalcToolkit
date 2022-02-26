@@ -1,0 +1,2 @@
+input x
+while ¬ ( x > 5 ) do x := x + 1

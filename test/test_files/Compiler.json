@@ -1,0 +1,121 @@
+[
+    {
+        "Name"   : "Skip",
+        "Input"  : "test/input/compiler/skip.while",
+        "Output" : "",
+        "Params" : [],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "Assignment",
+        "Input"  : "test/input/compiler/assignment.while",
+        "Output" : "1",
+        "Params" : [],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "Implication_1",
+        "Input"  : "test/input/compiler/implication.while",
+        "Output" : "True",
+        "Params" : ["True", "True"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "Implication_2",
+        "Input"  : "test/input/compiler/implication.while",
+        "Output" : "False",
+        "Params" : ["True", "False"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "Implication_3",
+        "Input"  : "test/input/compiler/implication.while",
+        "Output" : "True",
+        "Params" : ["False", "True"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "Implication_4",
+        "Input"  : "test/input/compiler/implication.while",
+        "Output" : "True",
+        "Params" : ["False", "False"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "ITE",
+        "Input"  : "test/input/compiler/ite.while",
+        "Output" : "1",
+        "Params" : [],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "ITE_Input",
+        "Input"  : "test/input/compiler/ite_input.while",
+        "Output" : "1",
+        "Params" : ["True"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "ITE_Input",
+        "Input"  : "test/input/compiler/ite_input.while",
+        "Output" : "0",
+        "Params" : ["False"],
+        "Type"   : "Compiler"
+    }, 
+    {
+        "Name"   : "ITE_Complex_1",
+        "Input"  : "test/input/compiler/ite_complex.while",
+        "Output" : "1",
+        "Params" : ["3","5","5"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "ITE_Complex_2",
+        "Input"  : "test/input/compiler/ite_complex.while",
+        "Output" : "3",
+        "Params" : ["3","5","2"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "ITE_Complex_3",
+        "Input"  : "test/input/compiler/ite_complex.while",
+        "Output" : "1",
+        "Params" : ["1","5","5"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "ITE_Complex_4",
+        "Input"  : "test/input/compiler/ite_complex.while",
+        "Output" : "1",
+        "Params" : ["3","1","5"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "ITE_Complex_5",
+        "Input"  : "test/input/compiler/ite_complex.while",
+        "Output" : "3",
+        "Params" : ["1","1","5"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "While_Simple_1",
+        "Input"  : "test/input/compiler/while.while",
+        "Output" : "6",
+        "Params" : ["0"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "While_Simple_2",
+        "Input"  : "test/input/compiler/while.while",
+        "Output" : "6",
+        "Params" : ["5"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "While_Simple_3",
+        "Input"  : "test/input/compiler/while.while",
+        "Output" : "10",
+        "Params" : ["10"],
+        "Type"   : "Compiler"
+    }
+]

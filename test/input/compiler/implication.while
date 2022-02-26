@@ -1,0 +1,4 @@
+input b1, b2
+out := ¬ b1 ∨ b2
+print out
+ 
