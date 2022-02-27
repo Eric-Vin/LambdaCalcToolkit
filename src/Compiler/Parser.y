@@ -18,8 +18,8 @@ import Compiler.Common
   while     { TWhile }      
   do        { TDo }  
   skip      { TSkip}
-  input    { TInput }
-  print    { TPrint }
+  input     { TInput }
+  print     { TPrint }
   ';'       { TSemi }
   ','       { TComma }       
   ':='      { TDef }       
