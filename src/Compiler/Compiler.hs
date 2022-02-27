@@ -11,9 +11,11 @@ runCompiler inFile outFile = do
     inputHandle <- openFile inFile ReadMode 
     hSetEncoding inputHandle utf8
     input <- hGetContents inputHandle
+    writeFile outFile $ (showString ((evalProgram . parser . lexer) input) [])
 
-    putStrLn $ (showString ((evalCommand (State []) . parser . lexer) input) [])
-
+-- TODO Fix this to actually take into account input/output
+evalProgram :: Program -> String
+evalProgram (Program input cmd output) = evalCommand (State []) cmd
 
 -- Interpreter for the AST
 evalCommand :: State -> Command -> String 

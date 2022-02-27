@@ -18,7 +18,10 @@ tokens :-
   while                     {\_ -> TWhile}
   do                        {\_ -> TDo}
   skip                      {\_ -> TSkip}
+  input                     {\_ -> TInput}
+  print                     {\_ -> TPrint}
   \;                        {\_ -> TSemi}
+  \,                        {\_ -> TComma}
   \:\=                      {\_ -> TDef}
   \=                        {\_ -> TEq}
   \+                        {\_ -> TPlus}
@@ -44,8 +47,11 @@ data Token
   | TElse       
   | TWhile      
   | TDo
-  | TSkip  
+  | TSkip
+  | TInput
+  | TPrint  
   | TSemi       
+  | TComma
   | TDef        
   | TEq         
   | TPlus       

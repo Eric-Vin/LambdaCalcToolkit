@@ -89,12 +89,17 @@ instance Show State where
             show_state (name, val) = name ++ " → " ++ (show val)
 
 -- The AST for While
+data Program = Program Input Command Output
+
+type Input = Maybe [String]
+type Output = Maybe String
+
 data Command
     = Semi Command Command
     | Skip
     | Assign String AExpr
     | If BExpr Command Command 
-    | While BExpr Command 
+    | While BExpr Command
     deriving Show
 
 data BExpr

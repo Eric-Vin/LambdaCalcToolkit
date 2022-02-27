@@ -44,6 +44,7 @@ library
     , directory
     , filepath
     , ghc
+    , with-utf8
   default-language: Haskell2010
 
 executable LambdaCalcToolkit-exe
@@ -64,6 +65,7 @@ executable LambdaCalcToolkit-exe
     , directory
     , filepath
     , ghc
+    , with-utf8
   default-language: Haskell2010
 
 test-suite LambdaCalcToolkit-test
@@ -89,4 +91,5 @@ test-suite LambdaCalcToolkit-test
     , tasty-golden
     , tasty-hunit
     , text
+    , with-utf8
   default-language: Haskell2010

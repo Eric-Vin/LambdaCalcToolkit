@@ -18,7 +18,10 @@ import Compiler.Common
   while     { TWhile }      
   do        { TDo }  
   skip      { TSkip}
-  ';'       { TSemi }       
+  input    { TInput }
+  print    { TPrint }
+  ';'       { TSemi }
+  ','       { TComma }       
   ':='      { TDef }       
   '='       { TEq }         
   '+'       { TPlus }       
@@ -35,6 +38,16 @@ import Compiler.Common
   Var       { TVar $$ } 
   Int       { TInt $$ }
 %%
+
+Program : Input Command Print {Program (Just $1) $2 (Just $3)}
+        | Input Command       {Program (Just $1) $2 Nothing}
+        | Command Print       {Program Nothing $1 (Just $2)}
+        | Command             {Program Nothing $1 Nothing}
+
+Input   : Input ',' Var      {$3:$1}
+        | input Var          {[$2]}
+
+Print   : print Var          {$2}
 
 Command : Command ';' CAtom {Semi $1 $3}
         | CAtom             {$1}

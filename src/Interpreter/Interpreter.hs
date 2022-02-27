@@ -15,11 +15,18 @@ import Debug.Trace
 runInterpreter :: String -> [String] -> IO String
 runInterpreter file_path params = do
     raw_file      <- readFile file_path
-    let parsed_lexpr  = (parser . lexer) raw_file
+
+    let toks          = lexer raw_file
+    let parsed_lexpr  = parser toks
     let enc_params    = encodeInputs $ reverse params
     let comp_expr     = applyInputs parsed_lexpr enc_params
     let out_lexpts    = interpretFixedPoint comp_expr
-    return $ decodeOutput out_lexpts
+
+    let output        = if null toks
+                        then []
+                        else decodeOutput out_lexpts
+    
+    return output
 
 encodeInputs :: [String] -> [LambdaExpr]
 encodeInputs []     = []
