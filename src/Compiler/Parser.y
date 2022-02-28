@@ -72,12 +72,12 @@ LogOp   : LogOp '&' Neg     {And $1 $3}
 Neg     : '~' Neg           {Not $2}
         | BAtom             {$1}
 
-BAtom   : true              {Boolean True}
-        | false             {Boolean False}
-        | Var               {BVariable $1}
-        | AExpr '<' AExpr   {Less $1 $3}
-        | AExpr '=' AExpr   {Eq $1 $3}
-        | '(' BExpr ')'     {$2}
+BAtom   : true                          {Boolean True}
+        | false                         {Boolean False}
+        | Var                           {BVariable $1}
+        | '(' AExpr '<' AExpr ')'       {Less $2 $4}
+        | '(' AExpr '=' AExpr ')'       {Eq $2 $4}
+        | '(' BExpr ')'                 {$2}
 
 
 AExpr   : Sum              {$1}
