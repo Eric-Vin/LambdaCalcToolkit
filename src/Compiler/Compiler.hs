@@ -52,9 +52,9 @@ evalCommand s (Semi (While b c1) c2) = final
         dummy_vars = (concat   (replicate (length vars) "(" )) ++ "w " ++ (intercalate  ") " vars) ++ ")"
         vars = Compiler.Common.getAssignedVars c1
 
-evalCommand s (Semi (Semi c1 c2) (Dummy op)) = com
+evalCommand s (Semi (Semi c1 c2) c3) = com
     where
-        com = evalCommand s (Semi c1 (Semi c2 (Dummy op)))
+        com = evalCommand s (Semi c1 (Semi c2 c3))
 
 
 evalCommand s (Dummy op ) = op
