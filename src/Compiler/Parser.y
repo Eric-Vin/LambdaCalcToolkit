@@ -39,21 +39,22 @@ import Compiler.Common
   Int       { TInt $$ }
 %%
 
-Program : Input Command Print {Program (Just $1) $2 (Just $3)}
-        | Input Command       {Program (Just $1) $2 Nothing}
-        | Command Print       {Program Nothing $1 (Just $2)}
-        | Command             {Program Nothing $1 Nothing}
+Program : Input Command Print  {Program (Just $1) $2}
+        | Input Command        {Program (Just $1) $2}
+        | Command Print        {Program Nothing $1}
+        | Command              {Program Nothing $1}
 
 Input   : Input ',' Var      {$3:$1}
         | input Var          {[$2]}
 
-Print   : print Var          {$2}
+Print   : print Var          {Assign $2 (Variable $2)}
 
-Command : Command ';' CAtom {Semi $1 $3}
+Command : CAtom ';' Command {Semi $1 $3}
         | CAtom             {$1}
 
 CAtom   : skip              {Skip}
         | Var ':=' AExpr    {Assign $1 $3}
+        | Var ':=' BExpr    {BAssign $1 $3}
         | if BExpr 
           then CAtom 
           else CAtom        {If $2 $4 $6}
@@ -73,6 +74,7 @@ Neg     : '~' Neg           {Not $2}
 
 BAtom   : true              {Boolean True}
         | false             {Boolean False}
+        | Var               {BVariable $1}
         | AExpr '<' AExpr   {Less $1 $3}
         | AExpr '=' AExpr   {Eq $1 $3}
         | '(' BExpr ')'     {$2}
