@@ -17,7 +17,17 @@ runCompiler inFile outFile = do
 
 -- TODO Fix this to actually take into account input/output
 evalProgram :: Program -> String
-evalProgram (Program input cmd) = evalCommand (State []) cmd
+evalProgram (Program input cmd) = intializeVars cmd
+
+intializeVars :: Command -> String
+intializeVars cmd =  start_wrap ++ program ++ end_wrap
+    where
+        zero = show (Pretty (Interpreter.Common.encodeNat 0))
+        vars = nub (Compiler.Common.getAllVars cmd)
+        lambda_vars = map (\x -> x ++ "-> ")  (map (\x -> "((\\" ++ x) vars)
+        start_wrap = (concat lambda_vars)
+        end_wrap = (concat (replicate (length vars) (") " ++ zero ++ ")") ))
+        program = evalCommand (State []) cmd
 
 -- Interpreter for the AST
 evalCommand :: State -> Command -> String 

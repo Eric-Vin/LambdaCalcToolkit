@@ -81,3 +81,30 @@ getAssignedVars (BAssign s a) = [s]
 getAssignedVars (If b c1 c2)  = (getAssignedVars c1) ++ (getAssignedVars c2)
 getAssignedVars (While b c)   = (getAssignedVars c)
 getAssignedVars (Dummy c)     = []
+
+
+getAllVars :: Command -> [String]
+getAllVars (Semi c1 c2)  = (getAssignedVars c1) ++ (getAssignedVars c2)
+getAllVars Skip          = []
+getAllVars (Assign s a)  = [s] ++ (getAExprVars a)
+getAllVars (BAssign s b) = [s] ++ (getBExprVars b)
+getAllVars (If b c1 c2)  = (getBExprVars b) ++ (getAssignedVars c1) ++ (getAssignedVars c2)
+getAllVars (While b c)   = (getBExprVars b) ++ (getAssignedVars c)
+getAllVars (Dummy c)     = []
+
+getAExprVars :: AExpr -> [String]
+getAExprVars (Number _)     = []
+getAExprVars (Variable s)   = [s]
+getAExprVars (Sub a1 a2)    = (getAExprVars a1) ++ (getAExprVars a2)
+getAExprVars (Add a1 a2)    = (getAExprVars a1) ++ (getAExprVars a2)
+getAExprVars (Mult a1 a2)   = (getAExprVars a1) ++ (getAExprVars a2)
+getAExprVars (Neg a)        = (getAExprVars a)
+
+getBExprVars :: BExpr -> [String]
+getBExprVars (Boolean _)    = []
+getBExprVars (BVariable s)  = [s]
+getBExprVars (Eq a1 a2)     = (getAExprVars a1) ++ (getAExprVars a2)
+getBExprVars (Less a1 a2)   = (getAExprVars a1) ++ (getAExprVars a2)
+getBExprVars (And b1 b2)    = (getBExprVars b1) ++ (getBExprVars b2)
+getBExprVars (Or b1 b2)     = (getBExprVars b1) ++ (getBExprVars b2)
+getBExprVars (Not b)        = (getBExprVars b)
