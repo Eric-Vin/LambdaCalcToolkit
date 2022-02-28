@@ -77,6 +77,7 @@ getAssignedVars :: Command -> [String]
 getAssignedVars (Semi c1 c2)  = (getAssignedVars c1) ++ (getAssignedVars c2)
 getAssignedVars Skip          = []
 getAssignedVars (Assign s a)  = [s]
+getAssignedVars (BAssign s a) = [s]
 getAssignedVars (If b c1 c2)  = (getAssignedVars c1) ++ (getAssignedVars c2)
 getAssignedVars (While b c)   = (getAssignedVars c)
 getAssignedVars (Dummy c)     = []

@@ -1,6 +1,7 @@
 module Compiler.Compiler (runCompiler) where
 
 import Compiler.Common
+import Data.List
 import Interpreter.Common
 import Compiler.Parser (parser)
 import Compiler.Lexer (lexer)
@@ -25,10 +26,10 @@ evalCommand s (Semi (Assign name a) c2) = "((\\" ++ name ++ "-> " ++ com ++ ") "
         com = evalCommand s c2
         val = evalAExpr s a
 
-evalCommand s (Semi (BAssign name a) c2) = "((\\" ++ name ++ "-> " ++ com ++ ") " ++ val ++ ")"
+evalCommand s (Semi (BAssign name b) c2) = "((\\" ++ name ++ "-> " ++ com ++ ") " ++ val ++ ")"
     where
         com = evalCommand s c2
-        val = evalBExpr s a
+        val = evalBExpr s b
 
 
 evalCommand s (Semi (If b c1 c2) c3) = "(((" ++ ifthen ++ bool ++ ")" ++ com1 ++ ")" ++ com2 ++ ")"
@@ -38,14 +39,23 @@ evalCommand s (Semi (If b c1 c2) c3) = "(((" ++ ifthen ++ bool ++ ")" ++ com1 ++
         com2 = evalCommand s (Semi c2 c3)
         bool = evalBExpr s b
 
-evalCommand s (Semi (While b c1) c2) = "((" ++ y_comb ++ while_rec ++ ") x)"
+evalCommand s (Semi (While b c1) c2) = final
     where
+        final = (concat   (replicate (length vars) "(" )) ++ "(" ++ y_comb ++ while_rec ++ ")"++ (intercalate  ") " vars) ++ ")"
         y_comb = "(\\x -> ((\\y-> (x (y y))) (\\y-> (x (y y)))))"
-        while_rec = "(\\w -> (\\x ->" ++ outer_body ++ "))"
+        while_rec = "(\\w -> " ++ (concat lambda_vars) ++ outer_body ++ (concat (replicate (length vars) ")" )) ++ ")"
         outer_body = "((" ++ bool ++ com ++ ")" ++ after ++ ")"
         bool = evalBExpr s b
-        com = evalCommand s (Semi c1 (Dummy "(w x)"))
+        com = evalCommand s (Semi c1 (Dummy dummy_vars))
         after = evalCommand s c2
+        lambda_vars = map (\x -> x ++ "-> ")  (map (\x -> "(\\" ++ x) vars)
+        dummy_vars = (concat   (replicate (length vars) "(" )) ++ "w " ++ (intercalate  ") " vars) ++ ")"
+        vars = Compiler.Common.getAssignedVars c1
+
+evalCommand s (Semi (Semi c1 c2) (Dummy op)) = com
+    where
+        com = evalCommand s (Semi c1 (Semi c2 (Dummy op)))
+
 
 evalCommand s (Dummy op ) = op
 
@@ -72,14 +82,17 @@ evalCommand s (If b c1 c2) = "(((" ++ ifthen ++ bool ++ ")" ++ com1 ++ ")" ++ co
         com2 = evalCommand s c2
     
 
-evalCommand s (While b c) = "((" ++ y_comb ++ while_rec ++ ") x)"
+evalCommand s (While b c) = final
     where
+        final = (concat   (replicate (length vars) "(" )) ++ "(" ++ y_comb ++ while_rec ++ ")"++ (intercalate  ") " vars) ++ ")"
         y_comb = "(\\x -> ((\\y-> (x (y y))) (\\y-> (x (y y)))))"
-        while_rec = "(\\w -> (\\x ->" ++ outer_body ++ "))"
-        outer_body = "((" ++ bool ++ inner_body ++ ")" ++ "(\\x ->(\\y-> y))" ++ ")"
-        inner_body = "(" ++ com ++ " (w x)" ++ ")"
+        while_rec = "(\\w -> " ++ (concat lambda_vars) ++ outer_body ++ (concat (replicate (length vars) ")" )) ++ ")"
+        outer_body = "((" ++ bool ++ com ++ ")" ++ "(\\x ->(\\y-> y))" ++ ")"
         bool = evalBExpr s b
-        com = evalCommand s c
+        com = evalCommand s (Semi c (Dummy dummy_vars))
+        lambda_vars = map (\x -> x ++ "-> ")  (map (\x -> "(\\" ++ x) vars)
+        dummy_vars = (concat   (replicate (length vars) "(" )) ++ "w " ++ (intercalate  ") " vars) ++ ")"
+        vars = Compiler.Common.getAssignedVars c
 
 evalBExpr :: State -> BExpr -> String
 evalBExpr _ (Boolean b) = val
