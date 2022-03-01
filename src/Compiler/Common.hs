@@ -41,7 +41,7 @@ instance Show State where
 -- The AST for While
 data Program = Program Input Command
 
-type Input = Maybe [String]
+type Input = [String]
 
 data Command
     = Semi Command Command

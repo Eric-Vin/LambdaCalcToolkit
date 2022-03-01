@@ -23,7 +23,7 @@
     {
         "Name"   : "Implication_2",
         "Input"  : "test/input/compiler/implication.while",
-        "Output" : "False",
+        "Output" : "False/0",
         "Params" : ["True", "False"],
         "Type"   : "Compiler"
     },
@@ -49,52 +49,59 @@
         "Type"   : "Compiler"
     },
     {
-        "Name"   : "ITE_Input",
+        "Name"   : "ITE_Input_1",
         "Input"  : "test/input/compiler/ite_input.while",
         "Output" : "1",
-        "Params" : ["True"],
+        "Params" : ["1"],
         "Type"   : "Compiler"
     },
     {
-        "Name"   : "ITE_Input",
+        "Name"   : "ITE_Input_2",
         "Input"  : "test/input/compiler/ite_input.while",
-        "Output" : "0",
-        "Params" : ["False"],
+        "Output" : "False/0",
+        "Params" : ["10"],
         "Type"   : "Compiler"
-    }, 
+    },
+    {
+        "Name"   : "ITE_Input_3",
+        "Input"  : "test/input/compiler/ite_input.while",
+        "Output" : "False/0",
+        "Params" : ["0"],
+        "Type"   : "Compiler"
+    },
     {
         "Name"   : "ITE_Complex_1",
         "Input"  : "test/input/compiler/ite_complex.while",
         "Output" : "1",
-        "Params" : ["3","5","5"],
+        "Params" : ["3","5","1"],
         "Type"   : "Compiler"
     },
     {
         "Name"   : "ITE_Complex_2",
         "Input"  : "test/input/compiler/ite_complex.while",
         "Output" : "3",
-        "Params" : ["3","5","2"],
+        "Params" : ["3","5","5"],
         "Type"   : "Compiler"
     },
     {
         "Name"   : "ITE_Complex_3",
         "Input"  : "test/input/compiler/ite_complex.while",
         "Output" : "1",
-        "Params" : ["1","5","5"],
+        "Params" : ["1","5","1"],
         "Type"   : "Compiler"
     },
     {
         "Name"   : "ITE_Complex_4",
         "Input"  : "test/input/compiler/ite_complex.while",
         "Output" : "1",
-        "Params" : ["3","1","5"],
+        "Params" : ["3","1","1"],
         "Type"   : "Compiler"
     },
     {
         "Name"   : "ITE_Complex_5",
         "Input"  : "test/input/compiler/ite_complex.while",
         "Output" : "3",
-        "Params" : ["1","1","5"],
+        "Params" : ["1","1","1"],
         "Type"   : "Compiler"
     },
     {

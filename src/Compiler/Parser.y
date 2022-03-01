@@ -39,10 +39,10 @@ import Compiler.Common
   Int       { TInt $$ }
 %%
 
-Program : Input Command Print  {Program (Just $1) (Semi $2 $3)}
-        | Input Command        {Program (Just $1) $2}
-        | Command Print        {Program Nothing (Semi $1 $2)}
-        | Command              {Program Nothing $1}
+Program : Input Command Print  {Program ($1) (Semi $2 $3)}
+        | Input Command        {Program ($1) $2}
+        | Command Print        {Program ([]) (Semi $1 $2)}
+        | Command              {Program ([]) $1}
 
 Input   : Input ',' Var      {$3:$1}
         | input Var          {[$2]}

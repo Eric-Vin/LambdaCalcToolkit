@@ -15,19 +15,24 @@ runCompiler inFile outFile = do
     input <- hGetContents inputHandle
     writeFile outFile $ (showString ((evalProgram . parser . lexer) input) [])
 
--- TODO Fix this to actually take into account input/output
 evalProgram :: Program -> String
-evalProgram (Program input cmd) = intializeVars cmd
+evalProgram (Program input cmd) = intializeVars input cmd
 
-intializeVars :: Command -> String
-intializeVars cmd =  start_wrap ++ program ++ end_wrap
+intializeVars :: [String] -> Command -> String
+intializeVars input cmd =  start_wrap ++ program ++ end_wrap
     where
         zero = show (Pretty (Interpreter.Common.encodeNat 0))
         vars = nub (Compiler.Common.getAllVars cmd)
         lambda_vars = map (\x -> x ++ "-> ")  (map (\x -> "((\\" ++ x) vars)
         start_wrap = (concat lambda_vars)
         end_wrap = (concat (replicate (length vars) (") " ++ zero ++ ")") ))
-        program = evalCommand (State []) cmd
+        program = initializeInput (reverse input) cmd
+
+initializeInput :: [String] -> Command -> String
+initializeInput [] cmd = evalCommand (State []) cmd
+initializeInput (x:xs) cmd = "(\\" ++ x ++ " -> " ++ program ++ ")"
+    where
+        program = initializeInput xs cmd
 
 -- Interpreter for the AST
 evalCommand :: State -> Command -> String 
