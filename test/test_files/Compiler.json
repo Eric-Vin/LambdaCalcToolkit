@@ -107,14 +107,14 @@
     {
         "Name"   : "While_Simple_1",
         "Input"  : "test/input/compiler/while.while",
-        "Output" : "6",
+        "Output" : "5",
         "Params" : ["0"],
         "Type"   : "Compiler"
     },
     {
         "Name"   : "While_Simple_2",
         "Input"  : "test/input/compiler/while.while",
-        "Output" : "6",
+        "Output" : "5",
         "Params" : ["5"],
         "Type"   : "Compiler"
     },
