@@ -22,7 +22,7 @@ intializeVars :: [String] -> Command -> String
 intializeVars input cmd =  start_wrap ++ program ++ end_wrap
     where
         zero = show (Pretty (Interpreter.Common.encodeNat 0))
-        vars = nub (Compiler.Common.getAllVars cmd)
+        vars = nub (Compiler.Common.getAllVars cmd) \\ input
         lambda_vars = map (\x -> x ++ "-> ")  (map (\x -> "((\\" ++ x) vars)
         start_wrap = (concat lambda_vars)
         end_wrap = (concat (replicate (length vars) (") " ++ zero ++ ")") ))
@@ -102,7 +102,7 @@ evalCommand s (While b c) = final
         final = (concat   (replicate (length vars) "(" )) ++ "(" ++ y_comb ++ while_rec ++ ")"++ (intercalate  ") " vars) ++ ")"
         y_comb = "(\\x -> ((\\y-> (x (y y))) (\\y-> (x (y y)))))"
         while_rec = "(\\w -> " ++ (concat lambda_vars) ++ outer_body ++ (concat (replicate (length vars) ")" )) ++ ")"
-        outer_body = "((" ++ bool ++ com ++ ")" ++ "(\\x ->(\\y-> y))" ++ ")"
+        outer_body = "((" ++ bool ++ com ++ ")" ++ "" ++ ")"
         bool = evalBExpr s b
         com = evalCommand s (Semi c (Dummy dummy_vars))
         lambda_vars = map (\x -> x ++ "-> ")  (map (\x -> "(\\" ++ x) vars)
