@@ -124,5 +124,26 @@
         "Output" : "10",
         "Params" : ["10"],
         "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "GCD_1",
+        "Input"  : "test/input/compiler/gcd.while",
+        "Output" : "1",
+        "Params" : ["2", "7"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "GCD_2",
+        "Input"  : "test/input/compiler/gcd.while",
+        "Output" : "5",
+        "Params" : ["5", "10"],
+        "Type"   : "Compiler"
+    },
+    {
+        "Name"   : "GCD_3",
+        "Input"  : "test/input/compiler/gcd.while",
+        "Output" : "3",
+        "Params" : ["6", "9"],
+        "Type"   : "Compiler"
     }
 ]

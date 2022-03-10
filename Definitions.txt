@@ -42,11 +42,3 @@ Reduce		Y (\c \x -> isZero (First x) x isZero (Second x) x (c Pair(Pred (First x
 Add_int		\x \y -> Reduce (Pair ( Add (First x) (First y)) (Add (Second x) (Second y)))
 Mult_int	\x \y -> (Pair (Add (Mult (First x) (First y)) (Mult (Second x) (Second y))) (Add (Mult (First x) (Second y)) (Mult (Second x) (First y))))
 Sub_int 	\x \y -> Reduce (Pair ( Add (First x) (Second y)) (Add (Second x) (First y)))
-
-
-Commands:
-While		Y (\r \S -> IfElse (condition S) (r (func S)) (S))
-While 		Need to figure out variables
-Skip 		???
-x := e		???
-c1 ; c2		???

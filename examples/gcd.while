@@ -1,0 +1,8 @@
+input a, b
+while ¬ (a = b) do
+	if (b < a)
+	then
+    	a := a - b
+	else
+    	b := b - a
+print a

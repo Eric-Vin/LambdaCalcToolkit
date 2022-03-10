@@ -74,9 +74,9 @@ evalCommand s (Semi (Semi c1 c2) c3) = com
 
 evalCommand s (Dummy op ) = op
 
-evalCommand s (Semi c1 c2) = (show c1) ++ (show c2)
+evalCommand s (Semi Skip c) = com
     where
-        s' = evalCommand s c1
+       com = evalCommand s c
 
 evalCommand s Skip = " "
 
