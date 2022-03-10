@@ -11,6 +11,6 @@ To use the interpreter, run the binary with the first parameter `interpret` foll
 ## Example 
 Several sample programs are provided in the examples folder. To compute the GCD of two natural numbers, say 6 and 9, run the following commands:
 
-stack exec LambdaCalcToolkit-exe compile examples/gcd.while gcd.lc
+`stack exec LambdaCalcToolkit-exe compile examples/gcd.while gcd.lc`
 
-stack exec LambdaCalcToolkit-exe interpret gcd.lc 6 9
+`stack exec LambdaCalcToolkit-exe interpret gcd.lc 6 9`
