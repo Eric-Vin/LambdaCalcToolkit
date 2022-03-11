@@ -1,0 +1,7 @@
+input x
+y:=x;
+while (1 < x) do {
+	x:=x-1;
+    y:=y*x
+}
+print y
